@@ -1,0 +1,13 @@
+C:\Users\Даниил\Documents\Visual Studio 2017\Projects\орбитальная механика\орбитальная механика\bin\Release\орбитальная механика.exe.config
+C:\Users\Даниил\Documents\Visual Studio 2017\Projects\орбитальная механика\орбитальная механика\bin\Release\орбитальная механика.exe
+C:\Users\Даниил\Documents\Visual Studio 2017\Projects\орбитальная механика\орбитальная механика\bin\Release\орбитальная механика.pdb
+C:\Users\Даниил\Documents\Visual Studio 2017\Projects\орбитальная механика\орбитальная механика\obj\Release\орбитальная_механика.FormChangeBody.resources
+C:\Users\Даниил\Documents\Visual Studio 2017\Projects\орбитальная механика\орбитальная механика\obj\Release\орбитальная_механика.FormEveryBody.resources
+C:\Users\Даниил\Documents\Visual Studio 2017\Projects\орбитальная механика\орбитальная механика\obj\Release\орбитальная_механика.FormMain.resources
+C:\Users\Даниил\Documents\Visual Studio 2017\Projects\орбитальная механика\орбитальная механика\obj\Release\орбитальная_механика.FormAddBody.resources
+C:\Users\Даниил\Documents\Visual Studio 2017\Projects\орбитальная механика\орбитальная механика\obj\Release\орбитальная_механика.FormOrbitBody.resources
+C:\Users\Даниил\Documents\Visual Studio 2017\Projects\орбитальная механика\орбитальная механика\obj\Release\орбитальная_механика.Properties.Resources.resources
+C:\Users\Даниил\Documents\Visual Studio 2017\Projects\орбитальная механика\орбитальная механика\obj\Release\орбитальная механика.csproj.GenerateResource.cache
+C:\Users\Даниил\Documents\Visual Studio 2017\Projects\орбитальная механика\орбитальная механика\obj\Release\орбитальная механика.csproj.CoreCompileInputs.cache
+C:\Users\Даниил\Documents\Visual Studio 2017\Projects\орбитальная механика\орбитальная механика\obj\Release\орбитальная механика.exe
+C:\Users\Даниил\Documents\Visual Studio 2017\Projects\орбитальная механика\орбитальная механика\obj\Release\орбитальная механика.pdb
