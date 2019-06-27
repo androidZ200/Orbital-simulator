@@ -77,6 +77,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SimulationSpace.cs" />
+    <Compile Include="Space.cs" />
+    <Compile Include="SpaceBackground.cs" />
+    <Compile Include="SpaceBody.cs" />
+    <Compile Include="SpaceShip.cs" />
+    <Compile Include="SpaceStaticBody.cs" />
     <EmbeddedResource Include="FormChangeBody.resx">
       <DependentUpon>FormChangeBody.cs</DependentUpon>
     </EmbeddedResource>

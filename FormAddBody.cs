@@ -19,36 +19,36 @@ namespace орбитальная_механика
         {
             InitializeComponent();
             this.form = form;
-            textBox1.Text = "Body " + Convert.ToString(form.spaceBody.Count + 1);
+            textBox1.Text = "Body " + Convert.ToString(form.space.AllBodies().Length + 1);
         }
         private void AddButton_Click(object sender, EventArgs e)
         {
+            var bodies = form.space.AllBodies();
             bool TheOnlyName = true;
-            for (int i = 0; i < form.spaceBody.Count; i++)
-                if (form.spaceBody[i].Name == textBox1.Text)
+            for (int i = 0; i < bodies.Length; i++)
+                if (bodies[i].Name == textBox1.Text)
                     TheOnlyName = false;
             if (TheOnlyName)
             {
                 if (!ShipCheckBox.Checked)
                 {
-                    form.AddSpaseBody((trackBar1.Value + 10) * form.pictureBox1.Width / 20, (trackBar2.Value + 10) * form.pictureBox1.Height / 20,
-                        trackBar5.Value, StaticCheckBox.Checked, textBox1.Text);
-                    if (IntoOrbitOfThisBody != null)
-                    {
-                        form.Orbit(IntoOrbitOfThisBody, form.spaceBody[form.spaceBody.Count - 1], clockwise);
-                    }
-                    Close();
+                    if (StaticCheckBox.Checked)
+                        form.space.AddStaticBody(new Point((trackBar1.Value + 10) * form.pictureBox1.Width / 20,
+                            (trackBar2.Value + 10) * form.pictureBox1.Height / 20), trackBar5.Value, textBox1.Text);
+                    else
+                        form.space.AddBody(new Point((trackBar1.Value + 10) * form.pictureBox1.Width / 20,
+                            (trackBar2.Value + 10) * form.pictureBox1.Height / 20), trackBar5.Value, textBox1.Text);
                 }
                 else
                 {
-                    form.AddSpaseShip((trackBar1.Value + 10) * form.pictureBox1.Width / 20, (trackBar2.Value + 10) * form.pictureBox1.Height / 20,
-                        textBox1.Text);
-                    if (IntoOrbitOfThisBody != null)
-                    {
-                        form.Orbit(IntoOrbitOfThisBody, form.spaceBody[form.spaceBody.Count - 1], clockwise);
-                    }
-                    Close();
+                    form.space.AddShip(new Point((trackBar1.Value + 10) * form.pictureBox1.Width / 20,
+                            (trackBar2.Value + 10) * form.pictureBox1.Height / 20), textBox1.Text);
+                    form.drawingShip = (SpaceShip)form.space.GetSpace().bodies.Last();
                 }
+                bodies = form.space.AllBodies();
+                if (IntoOrbitOfThisBody != null)
+                    form.space.Orbit(IntoOrbitOfThisBody, bodies[bodies.Length - 1], clockwise);
+                Close();
             }
             else
                 MessageBox.Show("Такое имя уже существует");

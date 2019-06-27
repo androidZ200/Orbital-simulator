@@ -12,39 +12,51 @@ namespace орбитальная_механика
 {
     public partial class FormOrbitBody : Form
     {
-        FormAddBody form = null;
+        FormAddBody form1 = null;
         FormChangeBody form2 = null;
+        FormMain form;
         int NumBody;
+
         public FormOrbitBody(FormAddBody form)
         {
             InitializeComponent();
-            this.form = form;
-            for (int i = 0; i < form.form.spaceBody.Count; i++)
-                checkedListBox1.Items.Add(form.form.spaceBody[i].Name);
+            form1 = form;
+            this.form = form.form;
+            var bodies = form.form.space.AllBodies();
+            for (int i = 0; i < bodies.Length; i++)
+                checkedListBox1.Items.Add(bodies[i].Name);
         }
-        public FormOrbitBody(FormChangeBody form2)
+        public FormOrbitBody(FormChangeBody form)
         {
             InitializeComponent();
-            this.form2 = form2;
-            for (int i = 0; i < form2.form.spaceBody.Count; i++)
-                checkedListBox1.Items.Add(form2.form.spaceBody[i].Name);
+            form2 = form;
+            this.form = form.form;
+            var bodies = form2.form.space.AllBodies();
+            for (int i = 0; i < bodies.Length; i++)
+                checkedListBox1.Items.Add(bodies[i].Name);
         }
         private void AddButton_Click(object sender, EventArgs e)
         {
-            if (form != null)
+            if (form1 != null)
             {
                 if (NumBody == -1)
-                    form.IntoOrbitOfThisBody = null;
+                    form1.IntoOrbitOfThisBody = null;
                 else
-                    form.IntoOrbitOfThisBody = form.form.spaceBody[NumBody];
-                form.clockwise = ClockwiseCheckBox.Checked;
+                {
+                    var bodies = form.space.AllBodies();
+                    form1.IntoOrbitOfThisBody = bodies[NumBody];
+                }
+                form1.clockwise = ClockwiseCheckBox.Checked;
             }
             else
             {
                 if (NumBody == -1)
                     form2.IntoOrbitOfThisBody = null;
                 else
-                    form2.IntoOrbitOfThisBody = form2.form.spaceBody[NumBody];
+                {
+                    var bodies = form.space.AllBodies();
+                    form2.IntoOrbitOfThisBody = bodies[NumBody];
+                }
                 form2.clockwise = ClockwiseCheckBox.Checked;
             }
             Close();
@@ -56,7 +68,7 @@ namespace орбитальная_механика
                 if (checkedListBox1.GetItemChecked(i))
                 {
                     if (form2 != null)
-                        if (form2.body == form2.form.spaceBody[i])
+                        if (form2.body == form.space.AllBodies()[i])
                         {
                             checkedListBox1.SetItemChecked(i, false);
                             k--;

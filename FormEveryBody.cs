@@ -18,29 +18,22 @@ namespace орбитальная_механика
         {
             InitializeComponent();
             this.form = form;
-            for (int i = 0; i < form.spaceBody.Count; i++)
-                checkedListBox1.Items.Add(form.spaceBody[i].Name);
+            var bodies = form.space.AllBodies();
+            for (int i = 0; i < bodies.Length; i++)
+                checkedListBox1.Items.Add(bodies[i].Name);
         }
         private void ShowButton_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < form.spaceBody.Count; i++)
-                form.spaceBody[i].Follow = false;
-            form.Beginning.X = (int)(form.spaceBody[NumBody].pointX - form.pictureBox1.Width / 2);
-            form.Beginning.Y = (int)(form.spaceBody[NumBody].pointY - form.pictureBox1.Height / 2);
-            form.DrawSpace();
+            var s = form.space.GetSpace();
+            var bodies = form.space.AllBodies();
+            s.follow = null;
+            s.Beginning = new PointF(bodies[NumBody].point.X - form.pictureBox1.Width / 2,
+                bodies[NumBody].point.Y - form.pictureBox1.Height / 2);
         }
         private void FollowButton_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < form.spaceBody.Count; i++)
-                form.spaceBody[i].Follow = false;
-            form.Beginning.X = (int)(form.spaceBody[NumBody].pointX - form.pictureBox1.Width / 2);
-            form.Beginning.Y = (int)(form.spaceBody[NumBody].pointY - form.pictureBox1.Height / 2);
-            for (int i = 0; i < form.spaceBody.Count; i++)
-                form.spaceBody[i].Follow = false;
-            form.spaceBody[NumBody].Follow = true;
-            form.spaceBody[NumBody].OnPicture.X = (int)form.spaceBody[NumBody].pointX - form.Beginning.X;
-            form.spaceBody[NumBody].OnPicture.Y = (int)form.spaceBody[NumBody].pointY - form.Beginning.Y;
-            form.DrawSpace();
+            ShowButton_Click(sender, e);
+            form.space.GetSpace().follow = form.space.AllBodies()[NumBody];
         }
         private void DeleteButton_Click(object sender, EventArgs e)
         {
@@ -48,21 +41,21 @@ namespace орбитальная_механика
             for (int i = 0; i < checkedListBox1.Items.Count; i++)
                 if (checkedListBox1.GetItemChecked(i))
                     list.Add(i);
+            var bodies = form.space.AllBodies();
             for (int i = list.Count - 1; i >= 0; i--)
-                form.spaceBody.RemoveAt(list[i]);
+                form.space.DeleteBody(bodies[list[i]]);
             checkedListBox1.Items.Clear();
-            for (int i = 0; i < form.spaceBody.Count; i++)
-                checkedListBox1.Items.Add(form.spaceBody[i].Name);
+            bodies = form.space.AllBodies();
+            for (int i = 0; i < bodies.Length; i++)
+                checkedListBox1.Items.Add(bodies[i].Name);
             ShowButton.Enabled = false;
             FollowButton.Enabled = false;
             ChangeButton.Enabled = false;
-            form.DrawSpace();
         }
         private void ChangeButton_Click(object sender, EventArgs e)
         {
-            FormChangeBody form = new FormChangeBody(this.form, this.form.spaceBody[NumBody]);
+            FormChangeBody form = new FormChangeBody(this.form, this.form.space.AllBodies()[NumBody]);
             form.ShowDialog();
-            this.form.DrawSpace();
         }
         private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
         {

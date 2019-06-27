@@ -23,14 +23,14 @@ namespace орбитальная_механика
             this.form = form;
             this.body = body;
             Text = body.Name;
-            textBox1.Text = Convert.ToString(body.pointX);
-            textBox2.Text = Convert.ToString(body.pointY);
-            textBox4.Text = Convert.ToString(body.speedX);
-            textBox3.Text = Convert.ToString(body.speedY);
+            textBox1.Text = Convert.ToString(body.point.X);
+            textBox2.Text = Convert.ToString(body.point.Y);
+            textBox4.Text = Convert.ToString(body.speed.X);
+            textBox3.Text = Convert.ToString(body.speed.Y);
             textBox5.Text = Convert.ToString(body.Weight);
             textBox6.Text = body.Name;
-            StaticCheckBox.Checked = body.Static;
-            FollowCheckBox.Checked = body.Follow;
+            StaticCheckBox.Checked = body is SpaceStaticBody;
+            FollowCheckBox.Checked = body == form.space.GetSpace().follow;
             colorBody = body.color;
             Bitmap bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             Graphics g = Graphics.FromImage(bmp);
@@ -40,48 +40,52 @@ namespace орбитальная_механика
             {
                 textBox5.Enabled = false;
                 StaticCheckBox.Text = "Driving";
-                var s = (SpaceShip)body;
-                StaticCheckBox.Checked = s.Driving;
+                StaticCheckBox.Checked = body == form.drawingShip;
             }
         }
         private void SaveButton_Click(object sender, EventArgs e)
         {
+            var bodies = form.space.AllBodies();
             bool TheOnlyName = true;
-            for (int i = 0; i < form.spaceBody.Count; i++)
-                if (form.spaceBody[i].Name == textBox6.Text && form.spaceBody[i] != body)
+            for (int i = 0; i < bodies.Length; i++)
+                if (bodies[i].Name == textBox6.Text && bodies[i] != body)
                     TheOnlyName = false;
+
+            if (form.space.GetSpace().follow == body)
+                form.space.GetSpace().follow = null;
             if (TheOnlyName)
                 try
                 {
-                    body.pointX = Convert.ToDouble(textBox1.Text);
-                    body.pointY = Convert.ToDouble(textBox2.Text);
-                    body.speedX = Convert.ToDouble(textBox4.Text);
-                    body.speedY = Convert.ToDouble(textBox3.Text);
-                    body.Weight = Convert.ToDouble(textBox5.Text);
+                    body.color = colorBody;
+
+                    body.point.X = (float)Convert.ToDouble(textBox1.Text);
+                    body.point.Y = (float)Convert.ToDouble(textBox2.Text);
+                    body.speed.X = (float)Convert.ToDouble(textBox4.Text);
+                    body.speed.Y = (float)Convert.ToDouble(textBox3.Text);
+                    body.Weight  = (float)Convert.ToDouble(textBox5.Text);
                     body.Name = textBox6.Text;
                     if (body is SpaceShip)
                     {
-                        SpaceShip s = (SpaceShip)body;
                         if (StaticCheckBox.Checked)
-                            for (int i = 0; i < form.spaceBody.Count; i++)
-                                if(form.spaceBody[i] is SpaceShip)
-                                {
-                                    SpaceShip ss = (SpaceShip)form.spaceBody[i];
-                                    ss.Driving = false;
-                                }
-                        s.Driving = StaticCheckBox.Checked;
+                            form.drawingShip = (SpaceShip)body;
+                        ((SpaceShip)body).DrawShip();
                     }
                     else
-                        body.Static = StaticCheckBox.Checked;
+                    {
+                        SpaceBody t;
+                        if (StaticCheckBox.Checked)
+                            t = new SpaceStaticBody(body);
+                        else t = new SpaceBody(body);
+                        form.space.DeleteBody(body);
+                        form.space.AddBody(t);
+                        body = t;
+                    }
+
                     if (FollowCheckBox.Checked)
-                        for (int i = 0; i < form.spaceBody.Count; i++)
-                            form.spaceBody[i].Follow = false;
-                    body.Follow = FollowCheckBox.Checked;
-                    body.OnPicture.X = (int)body.pointX - form.Beginning.X;
-                    body.OnPicture.Y = (int)body.pointY - form.Beginning.Y;
-                    body.color = colorBody;
+                        form.space.GetSpace().follow = body;
+
                     if (IntoOrbitOfThisBody != null)
-                        form.Orbit(IntoOrbitOfThisBody, body, clockwise);
+                        form.space.Orbit(IntoOrbitOfThisBody, body, clockwise);
                     Close();
                 }
                 catch
@@ -93,12 +97,7 @@ namespace орбитальная_механика
         }
         private void DeleteButton_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < form.spaceBody.Count; i++)
-                if (form.spaceBody[i] == body)
-                {
-                    form.spaceBody.RemoveAt(i);
-                    break;
-                }
+            form.space.DeleteBody(body);
             Close();
         }
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)

@@ -40,7 +40,6 @@
             this.AdditionallyButton = new System.Windows.Forms.Button();
             this.SpeedVectorCheckBox = new System.Windows.Forms.CheckBox();
             this.SpeedTrackBar = new System.Windows.Forms.TrackBar();
-            this.LoopCheckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.LenghtTrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SpeedTrackBar)).BeginInit();
@@ -175,7 +174,7 @@
             // 
             this.SpeedTrackBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.SpeedTrackBar.Location = new System.Drawing.Point(743, 208);
-            this.SpeedTrackBar.Maximum = 25;
+            this.SpeedTrackBar.Maximum = 50;
             this.SpeedTrackBar.Minimum = 1;
             this.SpeedTrackBar.Name = "SpeedTrackBar";
             this.SpeedTrackBar.Size = new System.Drawing.Size(75, 45);
@@ -183,23 +182,11 @@
             this.SpeedTrackBar.Value = 25;
             this.SpeedTrackBar.Scroll += new System.EventHandler(this.SpeedTrackBar_Scroll);
             // 
-            // LoopCheckBox
-            // 
-            this.LoopCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.LoopCheckBox.AutoSize = true;
-            this.LoopCheckBox.Location = new System.Drawing.Point(740, 235);
-            this.LoopCheckBox.Name = "LoopCheckBox";
-            this.LoopCheckBox.Size = new System.Drawing.Size(82, 17);
-            this.LoopCheckBox.TabIndex = 12;
-            this.LoopCheckBox.Text = "Loop space";
-            this.LoopCheckBox.UseVisualStyleBackColor = true;
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(829, 450);
-            this.Controls.Add(this.LoopCheckBox);
             this.Controls.Add(this.SpeedTrackBar);
             this.Controls.Add(this.SpeedVectorCheckBox);
             this.Controls.Add(this.AdditionallyButton);
@@ -216,7 +203,6 @@
             this.Name = "FormMain";
             this.Text = "орбитальная механика";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
-            this.SizeChanged += new System.EventHandler(this.Form1_SizeChanged);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyUp);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -240,7 +226,6 @@
         private System.Windows.Forms.Button AdditionallyButton;
         private System.Windows.Forms.CheckBox SpeedVectorCheckBox;
         private System.Windows.Forms.TrackBar SpeedTrackBar;
-        private System.Windows.Forms.CheckBox LoopCheckBox;
     }
 }
 

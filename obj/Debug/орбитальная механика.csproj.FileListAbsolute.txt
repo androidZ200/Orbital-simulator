@@ -12,3 +12,17 @@ C:\Users\Даниил\Documents\Visual Studio 2017\Projects\орбитальна
 C:\Users\Даниил\Documents\Visual Studio 2017\Projects\орбитальная механика\орбитальная механика\obj\Debug\орбитальная_механика.FormChangeBody.resources
 C:\Users\Даниил\Documents\Visual Studio 2017\Projects\орбитальная механика\орбитальная механика\obj\Debug\орбитальная_механика.FormEveryBody.resources
 C:\Users\Даниил\Documents\Visual Studio 2017\Projects\орбитальная механика\орбитальная механика\obj\Debug\орбитальная_механика.FormOrbitBody.resources
+E:\YandexDisk\YandexDisk\Projects\орбитальная механика\орбитальная механика\bin\Debug\орбитальная механика.exe.config
+E:\YandexDisk\YandexDisk\Projects\орбитальная механика\орбитальная механика\bin\Debug\орбитальная механика.exe
+E:\YandexDisk\YandexDisk\Projects\орбитальная механика\орбитальная механика\bin\Debug\орбитальная механика.pdb
+E:\YandexDisk\YandexDisk\Projects\орбитальная механика\орбитальная механика\obj\Debug\орбитальная механика.csprojAssemblyReference.cache
+E:\YandexDisk\YandexDisk\Projects\орбитальная механика\орбитальная механика\obj\Debug\орбитальная_механика.FormChangeBody.resources
+E:\YandexDisk\YandexDisk\Projects\орбитальная механика\орбитальная механика\obj\Debug\орбитальная_механика.FormEveryBody.resources
+E:\YandexDisk\YandexDisk\Projects\орбитальная механика\орбитальная механика\obj\Debug\орбитальная_механика.FormMain.resources
+E:\YandexDisk\YandexDisk\Projects\орбитальная механика\орбитальная механика\obj\Debug\орбитальная_механика.FormAddBody.resources
+E:\YandexDisk\YandexDisk\Projects\орбитальная механика\орбитальная механика\obj\Debug\орбитальная_механика.FormOrbitBody.resources
+E:\YandexDisk\YandexDisk\Projects\орбитальная механика\орбитальная механика\obj\Debug\орбитальная_механика.Properties.Resources.resources
+E:\YandexDisk\YandexDisk\Projects\орбитальная механика\орбитальная механика\obj\Debug\орбитальная механика.csproj.GenerateResource.cache
+E:\YandexDisk\YandexDisk\Projects\орбитальная механика\орбитальная механика\obj\Debug\орбитальная механика.csproj.CoreCompileInputs.cache
+E:\YandexDisk\YandexDisk\Projects\орбитальная механика\орбитальная механика\obj\Debug\орбитальная механика.exe
+E:\YandexDisk\YandexDisk\Projects\орбитальная механика\орбитальная механика\obj\Debug\орбитальная механика.pdb
