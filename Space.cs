@@ -42,7 +42,7 @@ namespace орбитальная_механика
         private PointF beginning = new PointF(0, 0);
         private object MoveLockBody = new object();
         private float slow = 1;
-        private SpaceBackground background = new SpaceBackground();
+        private ISpaceBackground background = new SpaceBackgroundBlack();
 
         public void AddBody(SpaceBody body)
         {
@@ -100,7 +100,7 @@ namespace орбитальная_механика
                 Bitmap bmp = new Bitmap(width, height);
                 Graphics g = Graphics.FromImage(bmp);
                 g.Clear(Color.Black);
-                g.DrawImage(background.GetBackground(new Point(-(int)beginning.X, -(int)beginning.Y)), 0, 0);
+                g.DrawImage(background.GetBackground(new Point(-(int)beginning.X, -(int)beginning.Y), width, height), 0, 0);
 
                 lock (MoveLockBody)
                 {
@@ -120,8 +120,8 @@ namespace орбитальная_механика
                     {
                         if (vectorSpeed)
                             g.DrawLine(new Pen(Color.Red, 1), bodies[i].point.X - beginning.X, bodies[i].point.Y - beginning.Y,
-                                bodies[i].point.X - beginning.X + bodies[i].speed.X * 4,
-                                bodies[i].point.Y - beginning.Y + bodies[i].speed.Y * 4);
+                                bodies[i].point.X - beginning.X + bodies[i].speed.X * 16,
+                                bodies[i].point.Y - beginning.Y + bodies[i].speed.Y * 16);
                         g.DrawImage(bodies[i].GetPicture(), bodies[i].point.X - beginning.X - 6, bodies[i].point.Y - beginning.Y - 6);
                     }
                 }
@@ -155,6 +155,11 @@ namespace орбитальная_механика
                 bodies.Clear();
             follow = null;
             beginning = Point.Empty;
+        }
+        public void NewBackground(ISpaceBackground b)
+        {
+            lock (MoveLockBody)
+                background = b;
         }
     }
 }

@@ -53,6 +53,9 @@ namespace орбитальная_механика
 
             if (form.space.GetSpace().follow == body)
                 form.space.GetSpace().follow = null;
+            if (form.drawingShip == body)
+                form.drawingShip = null;
+
             if (TheOnlyName)
                 try
                 {

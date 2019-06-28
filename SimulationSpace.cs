@@ -85,8 +85,8 @@ namespace орбитальная_механика
             if (!Play)
                 lock (Lock)
                 {
-                    b.speed.X = (p.X + space.Beginning.X - b.point.X) / 4;
-                    b.speed.Y = (p.Y + space.Beginning.Y - b.point.Y) / 4;
+                    b.speed.X = (p.X + space.Beginning.X - b.point.X) / (float)16.0;
+                    b.speed.Y = (p.Y + space.Beginning.Y - b.point.Y) / (float)16.0;
                 }
         }
         public void AddBody(PointF point, float Weight, string Name)
@@ -140,6 +140,10 @@ namespace орбитальная_механика
         public void SpeedSimulation(int speed)
         {
             SpeedTime = speed;
+        }
+        public void NewBackground(ISpaceBackground b)
+        {
+            space.NewBackground(b);
         }
         public void Delete()
         {

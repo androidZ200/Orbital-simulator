@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace орбитальная_механика
 {
-    class SpaceBackground
+    public class SpaceBackgroundStars : ISpaceBackground
     {
         private struct Star
         {
@@ -21,7 +21,7 @@ namespace орбитальная_механика
             }
         }
 
-        private Bitmap BackgroundDeep;
+        private HashSet<Star> BackgroundDeep = new HashSet<Star>();
         private HashSet<Star> BackgroundMiddle1 = new HashSet<Star>();
         private HashSet<Star> BackgroundMiddle2 = new HashSet<Star>();
         private HashSet<Star> BackgroundMiddle3 = new HashSet<Star>();
@@ -29,10 +29,8 @@ namespace орбитальная_механика
         private Size size = new Size(1280, 720);
         private Random rand = new Random();
 
-        public SpaceBackground()
+        public SpaceBackgroundStars()
         {
-            BackgroundDeep = new Bitmap(size.Width, size.Height);
-
             for (int i = 0; i < 200; i++)
                 if (i < 100)
                 {
@@ -63,10 +61,11 @@ namespace орбитальная_механика
                 }
         }
 
-        public Bitmap GetBackground(Point offset)
+        public Bitmap GetBackground(Point offset, int Width, int Height)
         {
-            Bitmap t = new Bitmap(BackgroundDeep);
+            Bitmap t = new Bitmap(size.Width, size.Height);
 
+            DrawImage(t, BackgroundDeep, Balance(Compression(offset, 0f)));
             DrawImage(t, BackgroundMiddle1, Balance(Compression(offset, 0.03f)));
             DrawImage(t, BackgroundMiddle2, Balance(Compression(offset, 0.06f)));
             DrawImage(t, BackgroundMiddle3, Balance(Compression(offset, 0.12f)));
@@ -99,10 +98,6 @@ namespace орбитальная_механика
         private Point Compression(Point t, float factor)
         {
             return new Point((int)(t.X * factor), (int)(t.Y * factor));
-        }
-        private void DrawPoint(Bitmap b, Color c)
-        {
-            b.SetPixel(rand.Next(size.Width), rand.Next(size.Height), c);
         }
         private void DrawPoint(HashSet<Star> b, Color c)
         {

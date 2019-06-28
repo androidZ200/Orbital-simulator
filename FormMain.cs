@@ -21,12 +21,16 @@ namespace орбитальная_механика
         }
         void DrawSpace(Bitmap picture)
         {
-                Invoke((Action)(() => { pictureBox1.Image = picture; }));
+                Invoke((Action)(() => 
+                {
+                    pictureBox1.Image = picture;
+                }));
         }
 
         public FormMain()
         {
             InitializeComponent();
+            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
             space = new SimulationSpace(DrawSpace, GetSizePictureBox);
         }
         private void StartStopButton_Click(object sender, EventArgs e)
@@ -130,6 +134,22 @@ namespace орбитальная_механика
                 if (e.KeyCode == Keys.W) drawingShip.Gas = false;
                 if (e.KeyCode == Keys.A) drawingShip.RotateLeft = false;
                 if (e.KeyCode == Keys.D) drawingShip.RotateRight = false;
+            }
+        }
+        private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int i = comboBox1.SelectedIndex;
+            switch(i)
+            {
+                case 0:
+                    space.NewBackground(new SpaceBackgroundBlack());
+                    break;
+                case 1:
+                    space.NewBackground(new SpaceBackgroundStars());
+                    break;
+                case 2:
+                    space.NewBackground(new SpaceBackgroundRetro());
+                    break;
             }
         }
     }
