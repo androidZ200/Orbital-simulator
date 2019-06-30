@@ -97,10 +97,8 @@ namespace орбитальная_механика
         {
             if (width > 0 && height > 0)
             {
-                Bitmap bmp = new Bitmap(width, height);
+                Bitmap bmp = background.GetBackground(new Point(-(int)beginning.X, -(int)beginning.Y), width, height);
                 Graphics g = Graphics.FromImage(bmp);
-                g.Clear(Color.Black);
-                g.DrawImage(background.GetBackground(new Point(-(int)beginning.X, -(int)beginning.Y), width, height), 0, 0);
 
                 lock (MoveLockBody)
                 {

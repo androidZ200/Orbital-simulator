@@ -100,6 +100,10 @@ namespace орбитальная_механика
         }
         private void DeleteButton_Click(object sender, EventArgs e)
         {
+            if (form.space.GetSpace().follow == body)
+                form.space.GetSpace().follow = null;
+            if (form.drawingShip == body)
+                form.drawingShip = null;
             form.space.DeleteBody(body);
             Close();
         }

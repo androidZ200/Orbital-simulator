@@ -26,11 +26,12 @@ namespace орбитальная_механика
         private HashSet<Star> BackgroundMiddle2 = new HashSet<Star>();
         private HashSet<Star> BackgroundMiddle3 = new HashSet<Star>();
         private HashSet<Star> BackgroundMiddle4 = new HashSet<Star>();
-        private Size size = new Size(1280, 720);
+        private Size size;
         private Random rand = new Random();
 
-        public SpaceBackgroundStars()
+        public SpaceBackgroundStars(int w, int h)
         {
+            size = new Size(w, h);
             for (int i = 0; i < 200; i++)
                 if (i < 100)
                 {
@@ -63,7 +64,9 @@ namespace орбитальная_механика
 
         public Bitmap GetBackground(Point offset, int Width, int Height)
         {
-            Bitmap t = new Bitmap(size.Width, size.Height);
+            size.Width = Width;
+            size.Height = Height;
+            Bitmap t = new Bitmap(Width, Height);
 
             DrawImage(t, BackgroundDeep, Balance(Compression(offset, 0f)));
             DrawImage(t, BackgroundMiddle1, Balance(Compression(offset, 0.03f)));

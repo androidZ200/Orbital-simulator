@@ -145,7 +145,7 @@ namespace орбитальная_механика
                     space.NewBackground(new SpaceBackgroundBlack());
                     break;
                 case 1:
-                    space.NewBackground(new SpaceBackgroundStars());
+                    space.NewBackground(new SpaceBackgroundStars(10000, 10000));
                     break;
                 case 2:
                     space.NewBackground(new SpaceBackgroundRetro());

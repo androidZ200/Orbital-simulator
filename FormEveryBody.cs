@@ -43,7 +43,13 @@ namespace орбитальная_механика
                     list.Add(i);
             var bodies = form.space.AllBodies();
             for (int i = list.Count - 1; i >= 0; i--)
+            {
+                if (form.space.GetSpace().follow == bodies[list[i]])
+                    form.space.GetSpace().follow = null;
+                if (form.drawingShip == bodies[list[i]])
+                    form.drawingShip = null;
                 form.space.DeleteBody(bodies[list[i]]);
+            }
             checkedListBox1.Items.Clear();
             bodies = form.space.AllBodies();
             for (int i = 0; i < bodies.Length; i++)

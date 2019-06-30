@@ -16,10 +16,10 @@ namespace орбитальная_механика
             Graphics g = Graphics.FromImage(bmp);
 
 
-            for (int i = 20; i >= 0; i--)
+            for (int i = 20; i >= 5; i--)
             {
-                DrawDeepLine(Width, Height, 700, g, offset, i);
-                DrawGrill(g, Color.FromArgb(0, (byte)(255.0 / (i + 1)), 0), Width, Height, offset, 700, (float)(1.0 / (i + 1)));
+                DrawDeepLine(Width, Height, 1000, g, offset, i);
+                DrawGrill(g, Color.FromArgb(0, (byte)(255.0 / (i + 1)), 0), Width, Height, offset, 1000, (float)(1.0 / (i + 1)));
             }
 
             return bmp;
@@ -81,8 +81,8 @@ namespace орбитальная_механика
             float factorDown = (float)(1.0 / (layer + 2));
             Point center = new Point(w / 2, h / 2);
 
-            for (int i = -3; i < 4; i++)
-                for (int j = -3; j < 4; j++)
+            for (int i = -7; i < 8; i++)
+                for (int j = -7; j < 8; j++)
                 {
                     Point beg = new Point(center.X + (int)((offset.X + i * l) * factorDown), center.Y + (int)((offset.Y + j * l) * factorDown));
                     Point end = new Point(center.X + (int)((offset.X + i * l) * factorUp), center.Y + (int)((offset.Y + j * l) * factorUp));

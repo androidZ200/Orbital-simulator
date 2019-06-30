@@ -6,7 +6,7 @@ namespace орбитальная_механика
     {
         public Bitmap GetBackground(Point offset, int Width, int Height)
         {
-            return new Bitmap(1, 1);
+            return new Bitmap(Width, Height);
         }
     }
 }
