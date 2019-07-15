@@ -1,20 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace орбитальная_механика
 {
-    public class SpaceBody
+    public class SpaceBody : SpaceObject
     {
-        public PointF point = new PointF(0, 0);
-        public PointF speed = new PointF(0, 0);
         public float Weight = 0;
         public Queue<PointF> Trail = new Queue<PointF>();
-        public int MaxLengthTrail = 50;
-        public string Name;
+        public static int MaxLengthTrail = 50;
         public Color color = Color.White;
 
         public SpaceBody(float pointX, float pointY, float Weight, string Name)
@@ -35,44 +29,30 @@ namespace орбитальная_механика
             speed.Y = other.speed.Y;
             Weight = other.Weight;
             Trail = new Queue<PointF>(other.Trail);
-            MaxLengthTrail = other.MaxLengthTrail;
             Name = other.Name;
             color = other.color;
         }
 
-        public virtual void Move(float slow)
+        public override void Move(float slow)
         {
-            point.X += speed.X * slow;
-            point.Y += speed.Y * slow;
+            base.Move(slow);
             Trail.Enqueue(point);
             while (Trail.Count > MaxLengthTrail)
                 Trail.Dequeue();
         }
-        public float SpeedCorrection(SpaceBody other, float slow)
-        {
-            double R2 = (point.X - other.point.X) * (point.X - other.point.X) + (point.Y - other.point.Y) * (point.Y - other.point.Y);
-            double R3 = Math.Pow(R2, 3.0 / 2);
-
-
-            if (R2 < 25)
-                Collision(other);
-            else
-            {
-                speed.X += (float)(other.Weight * (other.point.X - point.X) / R3) * slow;
-                speed.Y += (float)(other.Weight * (other.point.Y - point.Y) / R3) * slow;
-
-                other.speed.X += (float)(Weight * (point.X - other.point.X) / R3) * slow;
-                other.speed.Y += (float)(Weight * (point.Y - other.point.Y) / R3) * slow;
-            }
-
-            return (float)(Math.Max(Weight, other.Weight) / R2);
-        }
-        public virtual Bitmap GetPicture()
+        public override Bitmap GetPicture()
         {
             Bitmap bmp = new Bitmap(13, 13);
             Graphics g = Graphics.FromImage(bmp);
             g.DrawEllipse(new Pen(color, 1), 4, 4, 4, 4);
             return bmp;
+        }
+        public override float SpeedCorrection(SpaceBody other, float slow)
+        {
+            if (Distance2(other) > 100)
+                return Math.Max(SpeedCorrection(this, other, slow), SpeedCorrection(other, this, slow));
+            else Collision(other);
+            return 0;
         }
 
         private void Collision(SpaceBody other)
@@ -90,7 +70,7 @@ namespace орбитальная_механика
             other.speed.Y = (float)(speed2Module * Math.Sin(speed2Angle));
 
             bool zeroWeight = false;
-            if(Weight == 0 && other.Weight == 0)
+            if (Weight == 0 && other.Weight == 0)
             {
                 Weight = other.Weight = 1;
                 zeroWeight = true;
@@ -103,7 +83,7 @@ namespace орбитальная_механика
             }
             else
                 if (Weight == 0) ColisionZero(this, other);
-                else ColisionZero(other, this);
+            else ColisionZero(other, this);
             if (zeroWeight) Weight = other.Weight = 0;
 
             speed1Module = Math.Sqrt(speed.X * speed.X + speed.Y * speed.Y);

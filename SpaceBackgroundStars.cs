@@ -7,9 +7,9 @@ using System.Drawing;
 
 namespace орбитальная_механика
 {
-    public class SpaceBackgroundStars : ISpaceBackground
+    public class SpaceBackgroundStars : IBackground
     {
-        private struct Star
+        protected struct Star
         {
             public Point point;
             public Color color;
@@ -21,13 +21,13 @@ namespace орбитальная_механика
             }
         }
 
-        private HashSet<Star> BackgroundDeep = new HashSet<Star>();
-        private HashSet<Star> BackgroundMiddle1 = new HashSet<Star>();
-        private HashSet<Star> BackgroundMiddle2 = new HashSet<Star>();
-        private HashSet<Star> BackgroundMiddle3 = new HashSet<Star>();
-        private HashSet<Star> BackgroundMiddle4 = new HashSet<Star>();
-        private Size size;
-        private Random rand = new Random();
+        protected HashSet<Star> BackgroundDeep = new HashSet<Star>();
+        protected HashSet<Star> BackgroundMiddle1 = new HashSet<Star>();
+        protected HashSet<Star> BackgroundMiddle2 = new HashSet<Star>();
+        protected HashSet<Star> BackgroundMiddle3 = new HashSet<Star>();
+        protected HashSet<Star> BackgroundMiddle4 = new HashSet<Star>();
+        protected Size size;
+        protected Random rand = new Random();
 
         public SpaceBackgroundStars(int w, int h)
         {
@@ -77,7 +77,7 @@ namespace орбитальная_механика
             return t;
         }
 
-        private void DrawImage(Bitmap bmp, HashSet<Star> image, Point offset)
+        protected void DrawImage(Bitmap bmp, HashSet<Star> image, Point offset)
         {
             foreach(var x in image)
             {
@@ -85,7 +85,7 @@ namespace орбитальная_механика
                 bmp.SetPixel(t.X, t.Y, x.color);
             }
         }
-        private Point Balance(Point t)
+        protected Point Balance(Point t)
         {
             Func<int, int, int> x = (r, y) =>
             {
@@ -98,13 +98,32 @@ namespace орбитальная_механика
             t.Y = x(t.Y, size.Height);
             return t;
         }
-        private Point Compression(Point t, float factor)
+        protected Point Compression(Point t, float factor)
         {
             return new Point((int)(t.X * factor), (int)(t.Y * factor));
         }
-        private void DrawPoint(HashSet<Star> b, Color c)
+        protected void DrawPoint(HashSet<Star> b, Color c)
         {
             b.Add(new Star(new Point(rand.Next(size.Width), rand.Next(size.Height)), c));
+        }
+    }
+
+    public class SpaceBackgroundStaticStars : SpaceBackgroundStars
+    {
+        public SpaceBackgroundStaticStars(int w, int h) : base(w, h)
+        {
+            BackgroundDeep.Clear();
+            BackgroundMiddle1.Clear();
+            BackgroundMiddle2.Clear();
+            BackgroundMiddle3.Clear();
+            BackgroundMiddle4.Clear();
+            for (int i = 0; i < 200; i++)
+            {
+                DrawPoint(BackgroundDeep, Color.White);
+                DrawPoint(BackgroundDeep, Color.Yellow);
+                DrawPoint(BackgroundDeep, Color.Red);
+                DrawPoint(BackgroundDeep, Color.Cyan);
+            }
         }
     }
 }

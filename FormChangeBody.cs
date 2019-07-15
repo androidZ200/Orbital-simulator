@@ -17,6 +17,7 @@ namespace орбитальная_механика
         public bool clockwise;
         public SpaceBody body;
         Color colorBody;
+
         public FormChangeBody(FormMain form, SpaceBody body)
         {
             InitializeComponent();

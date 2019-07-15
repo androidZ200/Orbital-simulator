@@ -15,7 +15,7 @@ namespace орбитальная_механика
         FormAddBody form1 = null;
         FormChangeBody form2 = null;
         FormMain form;
-        int NumBody;
+        SpaceBody Body = null;
 
         public FormOrbitBody(FormAddBody form)
         {
@@ -39,23 +39,23 @@ namespace орбитальная_механика
         {
             if (form1 != null)
             {
-                if (NumBody == -1)
+                if (Body == null)
                     form1.IntoOrbitOfThisBody = null;
                 else
                 {
                     var bodies = form.space.AllBodies();
-                    form1.IntoOrbitOfThisBody = bodies[NumBody];
+                    form1.IntoOrbitOfThisBody = Body;
                 }
                 form1.clockwise = ClockwiseCheckBox.Checked;
             }
             else
             {
-                if (NumBody == -1)
+                if (Body == null)
                     form2.IntoOrbitOfThisBody = null;
                 else
                 {
                     var bodies = form.space.AllBodies();
-                    form2.IntoOrbitOfThisBody = bodies[NumBody];
+                    form2.IntoOrbitOfThisBody = Body;
                 }
                 form2.clockwise = ClockwiseCheckBox.Checked;
             }
@@ -74,7 +74,7 @@ namespace орбитальная_механика
                             k--;
                         }
                     k++;
-                    NumBody = i;
+                    Body = (SpaceBody)form.space.FindBody(checkedListBox1.Items[i].ToString());
                 }
             if (k == 1)
                 AddButton.Enabled = true;

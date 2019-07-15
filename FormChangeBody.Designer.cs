@@ -46,6 +46,9 @@
             // 
             // textBox1
             // 
+            this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(57)))), ((int)(((byte)(57)))));
+            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox1.ForeColor = System.Drawing.Color.White;
             this.textBox1.Location = new System.Drawing.Point(13, 13);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(111, 20);
@@ -53,6 +56,9 @@
             // 
             // textBox2
             // 
+            this.textBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(57)))), ((int)(((byte)(57)))));
+            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox2.ForeColor = System.Drawing.Color.White;
             this.textBox2.Location = new System.Drawing.Point(130, 13);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(111, 20);
@@ -60,6 +66,9 @@
             // 
             // textBox3
             // 
+            this.textBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(57)))), ((int)(((byte)(57)))));
+            this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox3.ForeColor = System.Drawing.Color.White;
             this.textBox3.Location = new System.Drawing.Point(130, 39);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(111, 20);
@@ -67,6 +76,9 @@
             // 
             // textBox4
             // 
+            this.textBox4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(57)))), ((int)(((byte)(57)))));
+            this.textBox4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox4.ForeColor = System.Drawing.Color.White;
             this.textBox4.Location = new System.Drawing.Point(13, 39);
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(111, 20);
@@ -74,6 +86,9 @@
             // 
             // textBox5
             // 
+            this.textBox5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(57)))), ((int)(((byte)(57)))));
+            this.textBox5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox5.ForeColor = System.Drawing.Color.White;
             this.textBox5.Location = new System.Drawing.Point(13, 65);
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(228, 20);
@@ -81,6 +96,9 @@
             // 
             // textBox6
             // 
+            this.textBox6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(57)))), ((int)(((byte)(57)))));
+            this.textBox6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox6.ForeColor = System.Drawing.Color.White;
             this.textBox6.Location = new System.Drawing.Point(13, 91);
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(228, 20);
@@ -88,22 +106,28 @@
             // 
             // DeleteButton
             // 
+            this.DeleteButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(43)))), ((int)(((byte)(43)))));
+            this.DeleteButton.FlatAppearance.BorderSize = 0;
+            this.DeleteButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.DeleteButton.Location = new System.Drawing.Point(13, 118);
             this.DeleteButton.Name = "DeleteButton";
             this.DeleteButton.Size = new System.Drawing.Size(111, 23);
             this.DeleteButton.TabIndex = 6;
             this.DeleteButton.Text = "Delete";
-            this.DeleteButton.UseVisualStyleBackColor = true;
+            this.DeleteButton.UseVisualStyleBackColor = false;
             this.DeleteButton.Click += new System.EventHandler(this.DeleteButton_Click);
             // 
             // SaveButton
             // 
+            this.SaveButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(43)))), ((int)(((byte)(43)))));
+            this.SaveButton.FlatAppearance.BorderSize = 0;
+            this.SaveButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.SaveButton.Location = new System.Drawing.Point(130, 118);
             this.SaveButton.Name = "SaveButton";
             this.SaveButton.Size = new System.Drawing.Size(111, 23);
             this.SaveButton.TabIndex = 7;
             this.SaveButton.Text = "Save";
-            this.SaveButton.UseVisualStyleBackColor = true;
+            this.SaveButton.UseVisualStyleBackColor = false;
             this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
             // 
             // StaticCheckBox
@@ -137,18 +161,22 @@
             // 
             // OrbitButton
             // 
+            this.OrbitButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(43)))), ((int)(((byte)(43)))));
+            this.OrbitButton.FlatAppearance.BorderSize = 0;
+            this.OrbitButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.OrbitButton.Location = new System.Drawing.Point(13, 195);
             this.OrbitButton.Name = "OrbitButton";
             this.OrbitButton.Size = new System.Drawing.Size(111, 23);
             this.OrbitButton.TabIndex = 11;
             this.OrbitButton.Text = "Into Orbit";
-            this.OrbitButton.UseVisualStyleBackColor = true;
+            this.OrbitButton.UseVisualStyleBackColor = false;
             this.OrbitButton.Click += new System.EventHandler(this.OrbitButton_Click);
             // 
             // FormChangeBody
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
             this.ClientSize = new System.Drawing.Size(253, 228);
             this.Controls.Add(this.OrbitButton);
             this.Controls.Add(this.pictureBox1);
@@ -162,6 +190,7 @@
             this.Controls.Add(this.textBox4);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
+            this.ForeColor = System.Drawing.Color.White;
             this.MaximumSize = new System.Drawing.Size(269, 267);
             this.MinimumSize = new System.Drawing.Size(269, 267);
             this.Name = "FormChangeBody";

@@ -41,6 +41,7 @@
             this.SpeedVectorCheckBox = new System.Windows.Forms.CheckBox();
             this.SpeedTrackBar = new System.Windows.Forms.TrackBar();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.RadarCheckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.LenghtTrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SpeedTrackBar)).BeginInit();
@@ -64,46 +65,55 @@
             // StartStopButton
             // 
             this.StartStopButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.StartStopButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(42)))), ((int)(((byte)(42)))));
+            this.StartStopButton.FlatAppearance.BorderSize = 0;
+            this.StartStopButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.StartStopButton.Location = new System.Drawing.Point(779, 13);
             this.StartStopButton.Name = "StartStopButton";
             this.StartStopButton.Size = new System.Drawing.Size(76, 23);
             this.StartStopButton.TabIndex = 1;
             this.StartStopButton.Text = "Start";
-            this.StartStopButton.UseVisualStyleBackColor = true;
+            this.StartStopButton.UseVisualStyleBackColor = false;
             this.StartStopButton.Click += new System.EventHandler(this.StartStopButton_Click);
             // 
             // AddButton
             // 
             this.AddButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.AddButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(42)))), ((int)(((byte)(42)))));
+            this.AddButton.FlatAppearance.BorderSize = 0;
+            this.AddButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.AddButton.Location = new System.Drawing.Point(779, 43);
             this.AddButton.Name = "AddButton";
             this.AddButton.Size = new System.Drawing.Size(76, 23);
             this.AddButton.TabIndex = 2;
             this.AddButton.Text = "Add";
-            this.AddButton.UseVisualStyleBackColor = true;
+            this.AddButton.UseVisualStyleBackColor = false;
             this.AddButton.Click += new System.EventHandler(this.AddButton_Click);
             // 
             // ResetButton
             // 
             this.ResetButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ResetButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(42)))), ((int)(((byte)(42)))));
+            this.ResetButton.FlatAppearance.BorderSize = 0;
+            this.ResetButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ResetButton.Location = new System.Drawing.Point(779, 73);
             this.ResetButton.Name = "ResetButton";
             this.ResetButton.Size = new System.Drawing.Size(76, 23);
             this.ResetButton.TabIndex = 3;
             this.ResetButton.Text = "Reset";
-            this.ResetButton.UseVisualStyleBackColor = true;
+            this.ResetButton.UseVisualStyleBackColor = false;
             this.ResetButton.Click += new System.EventHandler(this.ResetButton_Click);
             // 
             // LenghtTrackBar
             // 
             this.LenghtTrackBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.LenghtTrackBar.Location = new System.Drawing.Point(780, 103);
-            this.LenghtTrackBar.Maximum = 1500;
+            this.LenghtTrackBar.Maximum = 5000;
             this.LenghtTrackBar.Name = "LenghtTrackBar";
             this.LenghtTrackBar.Size = new System.Drawing.Size(75, 45);
             this.LenghtTrackBar.SmallChange = 10;
             this.LenghtTrackBar.TabIndex = 4;
-            this.LenghtTrackBar.Value = 50;
+            this.LenghtTrackBar.Value = 150;
             this.LenghtTrackBar.Scroll += new System.EventHandler(this.LenghtTrackBar_Scroll);
             // 
             // LenghtLabel
@@ -149,12 +159,15 @@
             // AdditionallyButton
             // 
             this.AdditionallyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.AdditionallyButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(42)))), ((int)(((byte)(42)))));
+            this.AdditionallyButton.FlatAppearance.BorderSize = 0;
+            this.AdditionallyButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.AdditionallyButton.Location = new System.Drawing.Point(780, 155);
             this.AdditionallyButton.Name = "AdditionallyButton";
             this.AdditionallyButton.Size = new System.Drawing.Size(75, 23);
             this.AdditionallyButton.TabIndex = 9;
             this.AdditionallyButton.Text = "AllBody";
-            this.AdditionallyButton.UseVisualStyleBackColor = true;
+            this.AdditionallyButton.UseVisualStyleBackColor = false;
             this.AdditionallyButton.Click += new System.EventHandler(this.AdditionallyButton_Click);
             // 
             // SpeedVectorCheckBox
@@ -174,35 +187,56 @@
             // SpeedTrackBar
             // 
             this.SpeedTrackBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.SpeedTrackBar.Location = new System.Drawing.Point(780, 208);
-            this.SpeedTrackBar.Maximum = 50;
-            this.SpeedTrackBar.Minimum = 1;
+            this.SpeedTrackBar.Location = new System.Drawing.Point(779, 230);
+            this.SpeedTrackBar.Maximum = 8;
+            this.SpeedTrackBar.Minimum = -8;
             this.SpeedTrackBar.Name = "SpeedTrackBar";
             this.SpeedTrackBar.Size = new System.Drawing.Size(75, 45);
-            this.SpeedTrackBar.TabIndex = 11;
-            this.SpeedTrackBar.Value = 25;
+            this.SpeedTrackBar.TabIndex = 4;
+            this.SpeedTrackBar.Value = 3;
             this.SpeedTrackBar.Scroll += new System.EventHandler(this.SpeedTrackBar_Scroll);
             // 
             // comboBox1
             // 
             this.comboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.comboBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.comboBox1.ForeColor = System.Drawing.Color.White;
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Items.AddRange(new object[] {
             "Black",
             "Stars",
-            "Retro"});
-            this.comboBox1.Location = new System.Drawing.Point(783, 247);
+            "Retro",
+            "Static Stars",
+            "Static Retro"});
+            this.comboBox1.Location = new System.Drawing.Point(782, 269);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(71, 21);
             this.comboBox1.TabIndex = 12;
             this.comboBox1.Text = "Black";
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.ComboBox1_SelectedIndexChanged);
             // 
+            // RadarCheckBox
+            // 
+            this.RadarCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.RadarCheckBox.AutoSize = true;
+            this.RadarCheckBox.Checked = true;
+            this.RadarCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.RadarCheckBox.Location = new System.Drawing.Point(779, 207);
+            this.RadarCheckBox.Name = "RadarCheckBox";
+            this.RadarCheckBox.Size = new System.Drawing.Size(55, 17);
+            this.RadarCheckBox.TabIndex = 13;
+            this.RadarCheckBox.Text = "Radar";
+            this.RadarCheckBox.UseVisualStyleBackColor = true;
+            this.RadarCheckBox.CheckedChanged += new System.EventHandler(this.RadarCheckBox_CheckedChanged);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(36)))), ((int)(((byte)(36)))));
             this.ClientSize = new System.Drawing.Size(866, 485);
+            this.Controls.Add(this.RadarCheckBox);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.SpeedTrackBar);
             this.Controls.Add(this.SpeedVectorCheckBox);
@@ -216,6 +250,7 @@
             this.Controls.Add(this.AddButton);
             this.Controls.Add(this.StartStopButton);
             this.Controls.Add(this.pictureBox1);
+            this.ForeColor = System.Drawing.Color.White;
             this.KeyPreview = true;
             this.MinimumSize = new System.Drawing.Size(450, 363);
             this.Name = "FormMain";
@@ -245,6 +280,7 @@
         private System.Windows.Forms.CheckBox SpeedVectorCheckBox;
         private System.Windows.Forms.TrackBar SpeedTrackBar;
         private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.CheckBox RadarCheckBox;
     }
 }
 

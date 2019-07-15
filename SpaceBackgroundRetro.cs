@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace орбитальная_механика
 {
-    public class SpaceBackgroundRetro : ISpaceBackground
+    public class SpaceBackgroundRetro : IBackground
     {
-        public Bitmap GetBackground(Point offset, int Width, int Height)
+        public virtual Bitmap GetBackground(Point offset, int Width, int Height)
         {
             Bitmap bmp = new Bitmap(Width, Height);
             Graphics g = Graphics.FromImage(bmp);
@@ -25,7 +25,7 @@ namespace орбитальная_механика
             return bmp;
         }
 
-        private Point Balance(Point t, int w, int h)
+        protected Point Balance(Point t, int w, int h)
         {
             Func<int, int, int> x = (r, y) =>
             {
@@ -38,11 +38,11 @@ namespace орбитальная_механика
             t.Y = x(t.Y, h);
             return t;
         }
-        private Point Compression(Point t, float factor)
+        protected Point Compression(Point t, float factor)
         {
             return new Point((int)(t.X * factor), (int)(t.Y * factor));
         }
-        private void DrawGrill(Graphics g, Color c, int w, int h, Point offset, int l, float factor)
+        protected void DrawGrill(Graphics g, Color c, int w, int h, Point offset, int l, float factor)
         {
             offset = Compression(Balance(offset, l, l), factor);
             l = (int)(l * factor);
@@ -74,7 +74,7 @@ namespace орбитальная_механика
                 t += l;
             }
         }
-        private void DrawDeepLine(int w, int h, int l, Graphics g, Point offset, int layer)
+        protected void DrawDeepLine(int w, int h, int l, Graphics g, Point offset, int layer)
         {
             offset = Balance(offset, l, l);
             float factorUp = (float)(1.0 / (layer + 1));
@@ -96,6 +96,19 @@ namespace орбитальная_механика
                         g.DrawLine(pen, beg, end);
                     }
                 }
+        }
+    }
+
+    public class SpaceBackgroundStaticRetro : SpaceBackgroundRetro
+    {
+        public override Bitmap GetBackground(Point offset, int Width, int Height)
+        {
+            Bitmap bmp = new Bitmap(Width, Height);
+            Graphics g = Graphics.FromImage(bmp);
+
+            DrawGrill(g, Color.FromArgb(0, 50, 0), Width, Height, Point.Empty, 100, 1);
+
+            return bmp;
         }
     }
 }

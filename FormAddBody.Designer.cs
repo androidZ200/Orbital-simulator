@@ -86,6 +86,9 @@
             // 
             // textBox1
             // 
+            this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(54)))), ((int)(((byte)(54)))));
+            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox1.ForeColor = System.Drawing.Color.White;
             this.textBox1.Location = new System.Drawing.Point(13, 64);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(308, 20);
@@ -93,12 +96,15 @@
             // 
             // AddButton
             // 
+            this.AddButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(46)))), ((int)(((byte)(46)))));
+            this.AddButton.FlatAppearance.BorderSize = 0;
+            this.AddButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.AddButton.Location = new System.Drawing.Point(210, 91);
             this.AddButton.Name = "AddButton";
             this.AddButton.Size = new System.Drawing.Size(111, 32);
             this.AddButton.TabIndex = 10;
             this.AddButton.Text = "Add";
-            this.AddButton.UseVisualStyleBackColor = true;
+            this.AddButton.UseVisualStyleBackColor = false;
             this.AddButton.Click += new System.EventHandler(this.AddButton_Click);
             // 
             // trackBar5
@@ -133,12 +139,15 @@
             // 
             // OrbitButton
             // 
+            this.OrbitButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(46)))), ((int)(((byte)(46)))));
+            this.OrbitButton.FlatAppearance.BorderSize = 0;
+            this.OrbitButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.OrbitButton.Location = new System.Drawing.Point(175, 134);
             this.OrbitButton.Name = "OrbitButton";
             this.OrbitButton.Size = new System.Drawing.Size(146, 23);
             this.OrbitButton.TabIndex = 14;
             this.OrbitButton.Text = "Into Orbit";
-            this.OrbitButton.UseVisualStyleBackColor = true;
+            this.OrbitButton.UseVisualStyleBackColor = false;
             this.OrbitButton.Click += new System.EventHandler(this.OrbitButton_Click);
             // 
             // ShipCheckBox
@@ -155,6 +164,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(36)))), ((int)(((byte)(36)))));
             this.ClientSize = new System.Drawing.Size(333, 163);
             this.Controls.Add(this.ShipCheckBox);
             this.Controls.Add(this.OrbitButton);
@@ -167,6 +177,7 @@
             this.Controls.Add(this.trackBar2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.trackBar1);
+            this.ForeColor = System.Drawing.Color.White;
             this.MaximumSize = new System.Drawing.Size(349, 202);
             this.MinimumSize = new System.Drawing.Size(349, 202);
             this.Name = "FormAddBody";

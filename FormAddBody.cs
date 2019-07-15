@@ -15,6 +15,7 @@ namespace орбитальная_механика
         public FormMain form;
         public SpaceBody IntoOrbitOfThisBody = null;
         public bool clockwise;
+
         public FormAddBody(FormMain form)
         {
             InitializeComponent();

@@ -2,7 +2,7 @@
 
 namespace орбитальная_механика
 {
-    public class SpaceBackgroundBlack : ISpaceBackground
+    public class SpaceBackgroundBlack : IBackground
     {
         public Bitmap GetBackground(Point offset, int Width, int Height)
         {

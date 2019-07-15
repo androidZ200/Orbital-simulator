@@ -12,8 +12,8 @@ namespace орбитальная_механика
         bool MousButtonLeft;
         Point MousDownPoint;
         Point MousPrevPoint;
-        SpaceBody currentBody;
-        public SpaceShip drawingShip;
+        SpaceObject currentBody;
+        public IControl drawingShip;
 
         Size GetSizePictureBox()
         {
@@ -90,9 +90,9 @@ namespace орбитальная_механика
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
         {
             MousDownCheck = false;
-            if (e.Location == MousDownPoint && !space.Play && currentBody != null)
+            if (e.Location == MousDownPoint && !space.Play && currentBody != null && currentBody is SpaceBody)
             {
-                FormChangeBody form = new FormChangeBody(this, currentBody);
+                FormChangeBody form = new FormChangeBody(this, (SpaceBody)currentBody);
                 form.ShowDialog();
             }
             currentBody = null;
@@ -116,25 +116,17 @@ namespace орбитальная_механика
         }
         private void SpeedTrackBar_Scroll(object sender, EventArgs e)
         {
-            space.SpeedSimulation(SpeedTrackBar.Value);
+            space.SpeedSimulation(Math.Exp(SpeedTrackBar.Value / 2));
         }
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
             if (drawingShip != null)
-            {
-                if (e.KeyCode == Keys.W) drawingShip.Gas = true;
-                if (e.KeyCode == Keys.A) drawingShip.RotateLeft = true;
-                if (e.KeyCode == Keys.D) drawingShip.RotateRight = true;
-            }
+                drawingShip.KeyDown(e.KeyCode);
         }
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
             if (drawingShip != null)
-            {
-                if (e.KeyCode == Keys.W) drawingShip.Gas = false;
-                if (e.KeyCode == Keys.A) drawingShip.RotateLeft = false;
-                if (e.KeyCode == Keys.D) drawingShip.RotateRight = false;
-            }
+                drawingShip.KeyUp(e.KeyCode);
         }
         private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -150,7 +142,17 @@ namespace орбитальная_механика
                 case 2:
                     space.NewBackground(new SpaceBackgroundRetro());
                     break;
+                case 3:
+                    space.NewBackground(new SpaceBackgroundStaticStars(10000, 10000));
+                    break;
+                case 4:
+                    space.NewBackground(new SpaceBackgroundStaticRetro());
+                    break;
             }
+        }
+        private void RadarCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            space.Radar = RadarCheckBox.Checked;
         }
     }
 }

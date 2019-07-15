@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace орбитальная_механика
 {
-    public class SpaceShip : SpaceBody
+    public class SpaceShip : SpaceBody, IControl
     {
         private bool gas = false;
         private object Lock = new object();
@@ -18,7 +15,7 @@ namespace орбитальная_механика
             {
                 return gas;
             }
-            set
+            private set
             {
                 gas = value;
                 if (gas) DrawFlyShop();
@@ -26,8 +23,8 @@ namespace орбитальная_механика
             }
 
         }
-        public bool RotateRight = false;
-        public bool RotateLeft = false;
+        public bool RotateRight { get; private set; } = false;
+        public bool RotateLeft { get; private set; } = false;
         public float Angle = 0;
         public float MaxPower = 0.01f;
         public Bitmap shipImage;
@@ -85,18 +82,32 @@ namespace орбитальная_механика
                 g.DrawImage(shipImage, new Point(0, 0));
             return result;
         }
-        public void Fly(float slow)
+        public override float SpeedCorrection(SpaceBody other, float slow)
+        {
+            return base.SpeedCorrection(other, slow);
+        }
+        public override void Move(float slow)
         {
             if (Gas)
             {
                 speed.Y += (float)Math.Sin(Angle) * MaxPower * slow;
                 speed.X += (float)Math.Cos(Angle) * MaxPower * slow;
             }
+            if (RotateRight) Angle += 0.05f * slow;
+            if (RotateLeft) Angle -= 0.05f * slow;
+            base.Move(slow);
         }
-        public void Rotate(float slow)
+        public void KeyDown(Keys key)
         {
-            if (RotateRight) Angle += 0.03f * slow;
-            if (RotateLeft) Angle -= 0.03f * slow;
+            if (key == Keys.W) Gas = true;
+            if (key == Keys.A) RotateLeft = true;
+            if (key == Keys.D) RotateRight = true;
+        }
+        public void KeyUp(Keys key)
+        {
+            if (key == Keys.W) Gas = false;
+            if (key == Keys.A) RotateLeft = false;
+            if (key == Keys.D) RotateRight = false;
         }
     }
 }
