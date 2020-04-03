@@ -34,14 +34,13 @@
             this.trackBar2 = new System.Windows.Forms.TrackBar();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.AddButton = new System.Windows.Forms.Button();
-            this.trackBar5 = new System.Windows.Forms.TrackBar();
-            this.label5 = new System.Windows.Forms.Label();
             this.StaticCheckBox = new System.Windows.Forms.CheckBox();
             this.OrbitButton = new System.Windows.Forms.Button();
             this.ShipCheckBox = new System.Windows.Forms.CheckBox();
+            this.TextBoxWeight = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar5)).BeginInit();
             this.SuspendLayout();
             // 
             // trackBar1
@@ -99,38 +98,18 @@
             this.AddButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(46)))), ((int)(((byte)(46)))));
             this.AddButton.FlatAppearance.BorderSize = 0;
             this.AddButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.AddButton.Location = new System.Drawing.Point(210, 91);
+            this.AddButton.Location = new System.Drawing.Point(175, 91);
             this.AddButton.Name = "AddButton";
-            this.AddButton.Size = new System.Drawing.Size(111, 32);
+            this.AddButton.Size = new System.Drawing.Size(146, 32);
             this.AddButton.TabIndex = 10;
             this.AddButton.Text = "Add";
             this.AddButton.UseVisualStyleBackColor = false;
             this.AddButton.Click += new System.EventHandler(this.AddButton_Click);
             // 
-            // trackBar5
-            // 
-            this.trackBar5.Location = new System.Drawing.Point(13, 91);
-            this.trackBar5.Maximum = 110;
-            this.trackBar5.Minimum = 10;
-            this.trackBar5.Name = "trackBar5";
-            this.trackBar5.Size = new System.Drawing.Size(191, 45);
-            this.trackBar5.TabIndex = 11;
-            this.trackBar5.Value = 10;
-            this.trackBar5.Scroll += new System.EventHandler(this.trackBar5_Scroll);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 139);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(59, 13);
-            this.label5.TabIndex = 12;
-            this.label5.Text = "Weight: 10";
-            // 
             // StaticCheckBox
             // 
             this.StaticCheckBox.AutoSize = true;
-            this.StaticCheckBox.Location = new System.Drawing.Point(103, 138);
+            this.StaticCheckBox.Location = new System.Drawing.Point(66, 138);
             this.StaticCheckBox.Name = "StaticCheckBox";
             this.StaticCheckBox.Size = new System.Drawing.Size(53, 17);
             this.StaticCheckBox.TabIndex = 13;
@@ -153,12 +132,33 @@
             // ShipCheckBox
             // 
             this.ShipCheckBox.AutoSize = true;
-            this.ShipCheckBox.Location = new System.Drawing.Point(103, 119);
+            this.ShipCheckBox.Location = new System.Drawing.Point(13, 138);
             this.ShipCheckBox.Name = "ShipCheckBox";
             this.ShipCheckBox.Size = new System.Drawing.Size(47, 17);
             this.ShipCheckBox.TabIndex = 15;
             this.ShipCheckBox.Text = "Ship";
             this.ShipCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // TextBoxWeight
+            // 
+            this.TextBoxWeight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(54)))), ((int)(((byte)(54)))));
+            this.TextBoxWeight.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TextBoxWeight.ForeColor = System.Drawing.Color.White;
+            this.TextBoxWeight.Location = new System.Drawing.Point(60, 108);
+            this.TextBoxWeight.Name = "TextBoxWeight";
+            this.TextBoxWeight.Size = new System.Drawing.Size(59, 20);
+            this.TextBoxWeight.TabIndex = 16;
+            this.TextBoxWeight.Text = "10";
+            this.TextBoxWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(10, 110);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(44, 13);
+            this.label3.TabIndex = 17;
+            this.label3.Text = "Weight:";
             // 
             // FormAddBody
             // 
@@ -166,11 +166,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(36)))), ((int)(((byte)(36)))));
             this.ClientSize = new System.Drawing.Size(333, 163);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.TextBoxWeight);
             this.Controls.Add(this.ShipCheckBox);
             this.Controls.Add(this.OrbitButton);
             this.Controls.Add(this.StaticCheckBox);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.trackBar5);
             this.Controls.Add(this.AddButton);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label2);
@@ -184,7 +184,6 @@
             this.Text = "Add";
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar5)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -198,10 +197,10 @@
         private System.Windows.Forms.TrackBar trackBar2;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button AddButton;
-        private System.Windows.Forms.TrackBar trackBar5;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.CheckBox StaticCheckBox;
         private System.Windows.Forms.Button OrbitButton;
         private System.Windows.Forms.CheckBox ShipCheckBox;
+        private System.Windows.Forms.TextBox TextBoxWeight;
+        private System.Windows.Forms.Label label3;
     }
 }

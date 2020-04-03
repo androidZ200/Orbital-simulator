@@ -23,6 +23,6 @@ E:\YandexDisk\YandexDisk\Projects\орбитальная механика\орб
 E:\YandexDisk\YandexDisk\Projects\орбитальная механика\орбитальная механика\obj\Debug\орбитальная_механика.FormOrbitBody.resources
 E:\YandexDisk\YandexDisk\Projects\орбитальная механика\орбитальная механика\obj\Debug\орбитальная_механика.Properties.Resources.resources
 E:\YandexDisk\YandexDisk\Projects\орбитальная механика\орбитальная механика\obj\Debug\орбитальная механика.csproj.GenerateResource.cache
-E:\YandexDisk\YandexDisk\Projects\орбитальная механика\орбитальная механика\obj\Debug\орбитальная механика.csproj.CoreCompileInputs.cache
 E:\YandexDisk\YandexDisk\Projects\орбитальная механика\орбитальная механика\obj\Debug\орбитальная механика.exe
 E:\YandexDisk\YandexDisk\Projects\орбитальная механика\орбитальная механика\obj\Debug\орбитальная механика.pdb
+E:\YandexDisk\YandexDisk\Projects\орбитальная механика\орбитальная механика\obj\Debug\орбитальная механика.csproj.CoreCompileInputs.cache

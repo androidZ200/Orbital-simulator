@@ -19,16 +19,15 @@ namespace орбитальная_механика
         {
         }
 
-        public override void Move(float slow)
+        public override void MoveFuture(float slow)
         {
-            speed = PointF.Empty;
+            lastSpeed = PointF.Empty;
+            newSpeed = PointF.Empty;
+            base.MoveFuture(slow);
         }
-        public override Bitmap GetPicture()
+        public override void GetPicture(Graphics g, Point center)
         {
-            Bitmap bmp = new Bitmap(13, 13);
-            Graphics g = Graphics.FromImage(bmp);
-            g.FillEllipse(new SolidBrush(color), 3, 3, 7, 7);
-            return bmp;
+            g.FillEllipse(new SolidBrush(color), center.X - 3, center.Y - 3, 7, 7);
         }
     }
 }

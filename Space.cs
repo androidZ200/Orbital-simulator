@@ -6,8 +6,8 @@ namespace орбитальная_механика
 {
     public class Space
     {
-        public List<SpaceObject> bodies { get; set; } = new List<SpaceObject>();
-        public SpaceObject follow { get; set; }
+        public List<SpaceBody> bodies { get; set; } = new List<SpaceBody>();
+        public SpaceBody follow { get; set; }
         public int LengthTrail
         {
             get
@@ -17,6 +17,19 @@ namespace орбитальная_механика
             set
             {
                 SpaceBody.MaxLengthTrail = value;
+                foreach (var x in bodies) lock (x) x.ChangetLengthTrail();
+            }
+        }
+        public int LengthFuture
+        {
+            get
+            {
+                return SpaceBody.LengthFuture;
+            }
+            set
+            {
+                SpaceBody.LengthFuture = value + 1;
+                foreach (var x in bodies) lock (x) x.ChangetLengthFuture();
             }
         }
         public PointF Beginning
@@ -27,94 +40,110 @@ namespace орбитальная_механика
             }
             set
             {
-                lock (MoveLockBody)
-                    beginning = value;
+                beginning = value;
             }
         }
-        public float Slow { get; private set; } = 1;
-
-        private PointF beginning = new PointF(0, 0);
-        private object MoveLockBody = new object();
-        private IBackground background = new SpaceBackgroundBlack();
-
-        public void AddBody(SpaceObject body)
+        public double Slow
         {
-            lock (MoveLockBody)
+            get { return historySlow[0]; }
+        }
+
+        private List<float> historySlow = new List<float>();
+        private PointF beginning = new PointF();
+        private IBackground background;
+
+        public Space()
+        {
+            historySlow.Add(1);
+            background = new SpaceBackgroundStaticRetro();
+        }
+
+        public void AddBody(SpaceBody body)
+        {
+            ResetFuture();
+            lock (bodies)
                 bodies.Add(body);
         }
-        public void RemoveBody(SpaceObject body)
+        public void RemoveBody(SpaceBody body)
         {
-            lock (MoveLockBody)
+            ResetFuture();
+            lock (bodies)
                 bodies.Remove(body);
         }
         public void Teak()
         {
-            float t = 0;
-            for (int i = 0; i < bodies.Count; i++)
-                for (int j = i + 1; j < bodies.Count; j++)
-                {
-                    float s = 0;
-                    if (bodies[j] is SpaceBody)
-                        s = bodies[i].SpeedCorrection((SpaceBody)bodies[j], Slow);
-                    if (s > t) t = s;
-                }
-            lock (MoveLockBody)
-                for (int i = 0; i < bodies.Count; i++)
-                    bodies[i].Move(Slow);
+            FutureTeak();
             if (follow != null)
-                lock (MoveLockBody)
+                lock (follow)
                 {
-                    beginning.X += follow.speed.X * Slow;
-                    beginning.Y += follow.speed.Y * Slow;
+                    beginning.X += follow.sX * historySlow[0];
+                    beginning.Y += follow.sY * historySlow[0];
                 }
+            foreach (var x in bodies)
+                lock (x)
+                {
+                    x.Move();
+                    if (x is SpaceShip) ((SpaceShip)x).MoveGas(historySlow[0]);
+                }
+            historySlow.RemoveAt(0);
 
-            if (t * Slow > 0.1) Slow /= 2;
-            else Slow *= 2;
-            if (Slow > 1) Slow = 1;
         }
         public void MoveSpace(Point pixels)
         {
-            lock (MoveLockBody)
-            {
-                beginning.X += pixels.X;
-                beginning.Y += pixels.Y;
-            }
+            beginning.X += pixels.X;
+            beginning.Y += pixels.Y;
         }
         public Bitmap GetPicture(int width, int height, bool vectorSpeed, bool radar)
         {
             if (width > 0 && height > 0)
             {
-                Bitmap bmp = background.GetBackground(new Point(-(int)beginning.X, -(int)beginning.Y), width, height);
+                Bitmap bmp;
+                bmp = background.GetBackground(new Point(-(int)beginning.X, -(int)beginning.Y), width, height);
                 Graphics g = Graphics.FromImage(bmp);
 
-                lock (MoveLockBody)
+
+                for (int i = 0; i < bodies.Count; i++)
                 {
-                    for (int i = 0; i < bodies.Count; i++)
-                        if (bodies[i] is SpaceBody)
+                    Pen p = new Pen(bodies[i].color, 1);
+                    lock (bodies[i])
+                    {
+                        var s = bodies[i].Trail.GetEnumerator();
+                        s.MoveNext();
+                        var prev = s;
+                        while (s.MoveNext())
                         {
-                            SpaceBody sb = (SpaceBody)bodies[i];
-                            var s = sb.Trail.GetEnumerator();
-                            s.MoveNext();
-                            var prev = s;
-                            while (s.MoveNext())
-                            {
-                                g.DrawLine(new Pen(sb.color, 1), prev.Current.X - beginning.X,
+                            if (prev.Current != null)
+                                g.DrawLine(p, prev.Current.X - beginning.X,
                                     prev.Current.Y - beginning.Y, s.Current.X - beginning.X, s.Current.Y - beginning.Y);
-                                prev = s;
-                            }
+                            prev = s;
                         }
-                    for (int i = 0; i < bodies.Count; i++)
-                        if (bodies[i].point.X >= beginning.X - 6 && bodies[i].point.X <= beginning.X + width + 6 &&
-                            bodies[i].point.Y >= beginning.Y - 6 && bodies[i].point.Y <= beginning.Y + height + 6)
+                    }
+                    lock (bodies[i])
+                    {
+                        var s = bodies[i].Future.GetEnumerator();
+                        s.MoveNext();
+                        var prev = s;
+                        while (s.MoveNext())
+                        {
+                            if (prev.Current != null)
+                                g.DrawLine(p, prev.Current.point.X - beginning.X,
+                                    prev.Current.point.Y - beginning.Y, s.Current.point.X - beginning.X, s.Current.point.Y - beginning.Y);
+                            prev = s;
+                        }
+                    }
+                }
+                for (int i = 0; i < bodies.Count; i++)
+                    lock (bodies[i])
+                        if (bodies[i].X >= beginning.X - 6 && bodies[i].X <= beginning.X + width + 6 &&
+                        bodies[i].Y >= beginning.Y - 6 && bodies[i].Y <= beginning.Y + height + 6)
                         {
                             if (vectorSpeed)
-                                g.DrawLine(new Pen(Color.Red, 1), bodies[i].point.X - beginning.X, bodies[i].point.Y - beginning.Y,
-                                    bodies[i].point.X - beginning.X + bodies[i].speed.X * 16,
-                                    bodies[i].point.Y - beginning.Y + bodies[i].speed.Y * 16);
-                            g.DrawImage(bodies[i].GetPicture(), bodies[i].point.X - beginning.X - 6, bodies[i].point.Y - beginning.Y - 6);
+                                g.DrawLine(new Pen(Color.Red, 1), bodies[i].X - beginning.X, bodies[i].Y - beginning.Y,
+                                bodies[i].X - beginning.X + bodies[i].speed.X * 16,
+                                bodies[i].Y - beginning.Y + bodies[i].speed.Y * 16);
+                            bodies[i].GetPicture(g, new Point((int)(bodies[i].X - beginning.X), (int)(bodies[i].Y - beginning.Y)));
                         }
-                    if (radar) DrawRadar(width, height, g);
-                }
+                if (radar) DrawRadar(width, height, g);
                 return bmp;
             }
             return null;
@@ -126,61 +155,105 @@ namespace орбитальная_механика
             g.DrawEllipse(new Pen(Color.RoyalBlue), -60, -60, width + 120, height + 120);
 
             for (int i = 0; i < bodies.Count; i++)
-            {
-                if (!(bodies[i].point.X >= beginning.X - 6 && bodies[i].point.X <= beginning.X + width + 6 &&
-                            bodies[i].point.Y >= beginning.Y - 6 && bodies[i].point.Y <= beginning.Y + height + 6))
-                {
-                    PointF center = new PointF(beginning.X + width / 2f, beginning.Y + height / 2f);
-                    float a = width / 2 - 10;
-                    float b = height / 2 - 10;
-                    double ctg = (bodies[i].point.X - center.X) / (bodies[i].point.Y - center.Y);
-                    float Y = (float)Math.Sqrt((a * a * b * b) / (b * b * ctg * ctg + a * a));
-                    if (bodies[i].point.Y - center.Y < 0) Y = -Y;
-                    float X;
-                    if (Y != 0)
-                        X = (float)(Y * ctg);
-                    else
-                        X = bodies[i].point.X - center.X > 0 ? a : -a;
+                lock (bodies[i])
+                    if (!(bodies[i].X >= beginning.X - 6 && bodies[i].X <= beginning.X + width + 6 &&
+                            bodies[i].Y >= beginning.Y - 6 && bodies[i].Y <= beginning.Y + height + 6))
+                    {
+                        PointF center = new PointF(beginning.X + width / 2f, beginning.Y + height / 2f);
+                        float a = width / 2 - 10;
+                        float b = height / 2 - 10;
+                        double ctg = (bodies[i].X - center.X) / (bodies[i].Y - center.Y);
+                        float Y = (float)Math.Sqrt((a * a * b * b) / (b * b * ctg * ctg + a * a));
+                        if (bodies[i].Y - center.Y < 0) Y = -Y;
+                        float X;
+                        if (Y != 0)
+                            X = (float)(Y * ctg);
+                        else
+                            X = bodies[i].X - center.X > 0 ? a : -a;
 
-                    g.DrawImage(bodies[i].GetPicture(), X + a + 4, Y + b + 4);
-                }
-            }
+                        bodies[i].GetPicture(g, new Point((int)(X + a + 10), (int)(Y + b + 10)));
+                    }
         }
-        public void Orbit(SpaceBody SunBody, SpaceObject PlanetBody, bool clockwise)
+        public void Orbit(SpaceBody SunBody, SpaceBody PlanetBody, bool clockwise)
         {
-            PlanetBody.speed.X = SunBody.speed.X;
-            PlanetBody.speed.Y = SunBody.speed.Y;
-            double R = Math.Sqrt((PlanetBody.point.X - SunBody.point.X) * (PlanetBody.point.X - SunBody.point.X) +
-                (PlanetBody.point.Y - SunBody.point.Y) * (PlanetBody.point.Y - SunBody.point.Y));
-            double AngleA = Math.Atan2(PlanetBody.point.Y - SunBody.point.Y, PlanetBody.point.X - SunBody.point.X);
+            double R = Math.Sqrt((PlanetBody.X - SunBody.X) * (PlanetBody.X - SunBody.X) +
+                (PlanetBody.Y - SunBody.Y) * (PlanetBody.Y - SunBody.Y));
+            if (R <= 1d) throw new Exception();
+            PlanetBody.sX = SunBody.sX;
+            PlanetBody.sY = SunBody.sY;
+            double AngleA = Math.Atan2(PlanetBody.Y - SunBody.Y, PlanetBody.X - SunBody.X);
             if (clockwise) AngleA += Math.PI / 2;
             else AngleA -= Math.PI / 2;
-            PlanetBody.speed.X += (float)(Math.Sqrt(SunBody.Weight / R) * Math.Cos(AngleA));
-            PlanetBody.speed.Y += (float)(Math.Sqrt(SunBody.Weight / R) * Math.Sin(AngleA));
+            PlanetBody.sX += (float)(Math.Sqrt(SunBody.Weight / R) * Math.Cos(AngleA));
+            PlanetBody.sY += (float)(Math.Sqrt(SunBody.Weight / R) * Math.Sin(AngleA));
         }
-        public SpaceObject Find(PointF coordinate)
+        public SpaceBody Find(PointF coordinate)
         {
-            for (int i = 0; i < bodies.Count; i++)
-                if (coordinate.X - bodies[i].point.X + beginning.X > -5 && coordinate.X - bodies[i].point.X + beginning.X < 5 &&
-                    coordinate.Y - bodies[i].point.Y + beginning.Y > -5 && coordinate.Y - bodies[i].point.Y + beginning.Y < 5)
-                    return bodies[i];
+            lock (bodies)
+                for (int i = 0; i < bodies.Count; i++)
+                    if (coordinate.X - bodies[i].X + beginning.X > -5 && coordinate.X - bodies[i].X + beginning.X < 5 &&
+                        coordinate.Y - bodies[i].Y + beginning.Y > -5 && coordinate.Y - bodies[i].Y + beginning.Y < 5)
+                        return bodies[i];
             return null;
         }
-        public SpaceObject Find(string Name)
+        public SpaceBody Find(string Name)
         {
             return bodies.Find((x) => Name == x.Name);
         }
         public void Clear()
         {
-            lock (MoveLockBody)
+            lock (bodies)
                 bodies.Clear();
             follow = null;
             beginning = Point.Empty;
         }
         public void NewBackground(IBackground b)
         {
-            lock (MoveLockBody)
-                background = b;
+            background = b;
+        }
+
+        private void ResetFuture()
+        {
+            foreach (var x in bodies)
+                lock (x)
+                    x.Changet();
+            float t = historySlow[0];
+            historySlow.Clear();
+            historySlow.Add(t);
+        }
+        private void FutureTeak()
+        {
+            for (int i = 0; i <= LengthFuture; i++)
+            {
+                bool isChangetFuture = false;
+                float t = 0;
+                for (int x = 0; x < bodies.Count; x++)
+                    if (bodies[x].FutureLength == i)
+                        lock (bodies[x])
+                        {
+                            isChangetFuture = true;
+                            for (int y = 0; y < bodies.Count; y++)
+                                if (y > x || (y < x && bodies[y].FutureLength != i))
+                                {
+                                    float s = 0;
+                                    s = bodies[x].SpeedCorrection(bodies[y], historySlow[i]);
+                                    if (s > t) t = s;
+                                }
+                        }
+                foreach (var x in bodies)
+                    lock (x)
+                        if (x.FutureLength == i)
+                            x.MoveFuture(historySlow[i]);
+                if (isChangetFuture)
+                {
+                    if (historySlow.Count <= i + 1)
+                        historySlow.Add(1);
+
+                    if (t * historySlow[i] > 0.1) historySlow[i + 1] = historySlow[i] / 2;
+                    else if (t * historySlow[i] < 0.05) historySlow[i + 1] = historySlow[i] * 2;
+                    if (historySlow[i] >= 1) historySlow[i + 1] = 1;
+                }
+            }
         }
     }
 }

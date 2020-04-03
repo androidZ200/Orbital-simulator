@@ -12,26 +12,19 @@ namespace орбитальная_механика
         bool MousButtonLeft;
         Point MousDownPoint;
         Point MousPrevPoint;
-        SpaceObject currentBody;
+        SpaceBody currentBody;
         public IControl drawingShip;
 
         Size GetSizePictureBox()
         {
             return pictureBox1.Size;
         }
-        void DrawSpace(Bitmap picture)
-        {
-                Invoke((Action)(() => 
-                {
-                    pictureBox1.Image = picture;
-                }));
-        }
 
         public FormMain()
         {
             InitializeComponent();
             comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
-            space = new SimulationSpace(DrawSpace, GetSizePictureBox);
+            space = new SimulationSpace(this, GetSizePictureBox);
         }
         private void StartStopButton_Click(object sender, EventArgs e)
         {
@@ -59,7 +52,6 @@ namespace орбитальная_механика
             space.Clear();
             Thread.Sleep(60);
             StartStopButton.Text = "Start";
-            SpaceBodyCountLabel.Text = "0";
         }
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -84,24 +76,21 @@ namespace орбитальная_механика
             else if (MousDownCheck)
                 space.MoveSpace(new Point(MousPrevPoint.X - e.X, MousPrevPoint.Y - e.Y));
             MousPrevPoint = e.Location;
-            LabelPointX.Text = Convert.ToString(e.X + space.GetSpace().Beginning.X);
-            LabelPointY.Text = Convert.ToString(e.Y + space.GetSpace().Beginning.Y);
         }
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
         {
             MousDownCheck = false;
-            if (e.Location == MousDownPoint && !space.Play && currentBody != null && currentBody is SpaceBody)
+            if (e.Location == MousDownPoint && !space.Play && currentBody != null)
             {
-                FormChangeBody form = new FormChangeBody(this, (SpaceBody)currentBody);
+                FormChangeBody form = new FormChangeBody(this, currentBody);
                 form.ShowDialog();
             }
             currentBody = null;
-            SpaceBodyCountLabel.Text = Convert.ToString(space.AllBodies().Length);
         }
         private void LenghtTrackBar_Scroll(object sender, EventArgs e)
         {
-            LenghtLabel.Text = Convert.ToString(LenghtTrackBar.Value);
-            space.GetSpace().LengthTrail = LenghtTrackBar.Value;
+            LenghtLabel.Text = Convert.ToString(LenghtTrailTrackBar.Value);
+            space.GetSpace().LengthTrail = LenghtTrailTrackBar.Value;
         }
         private void AdditionallyButton_Click(object sender, EventArgs e)
         {
@@ -148,11 +137,22 @@ namespace орбитальная_механика
                 case 4:
                     space.NewBackground(new SpaceBackgroundStaticRetro());
                     break;
+                case 5:
+                    space.NewBackground(new SpaceBackgroundCentral(space.GetSpace().bodies));
+                    break;
+                case 6:
+                    space.NewBackground(new SpaceBackgroundRadial(space.GetSpace().bodies));
+                    break;
             }
         }
         private void RadarCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             space.Radar = RadarCheckBox.Checked;
+        }
+        private void TimeTrackBar_Scroll(object sender, EventArgs e)
+        {
+            TimeLabel.Text = Convert.ToString(LengthFutureTrackBar.Value);
+            space.GetSpace().LengthFuture = LengthFutureTrackBar.Value;
         }
     }
 }

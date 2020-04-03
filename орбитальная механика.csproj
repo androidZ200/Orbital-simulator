@@ -81,10 +81,11 @@
     <Compile Include="Space.cs" />
     <Compile Include="Interfaces.cs" />
     <Compile Include="SpaceBackgroundBlack.cs" />
+    <Compile Include="SpaceBackgroundCentral.cs" />
+    <Compile Include="SpaceBackgroundRadial.cs" />
     <Compile Include="SpaceBackgroundRetro.cs" />
     <Compile Include="SpaceBackgroundStars.cs" />
     <Compile Include="SpaceBody.cs" />
-    <Compile Include="SpaceObject.cs" />
     <Compile Include="SpaceShip.cs" />
     <Compile Include="SpaceStaticBody.cs" />
     <EmbeddedResource Include="FormChangeBody.resx">

@@ -20,8 +20,7 @@ namespace орбитальная_механика
             this.form = form;
             var bodies = form.space.AllBodies();
             for (int i = 0; i < bodies.Length; i++)
-                if (bodies[i] is SpaceBody)
-                    checkedListBox1.Items.Add(bodies[i].Name);
+                checkedListBox1.Items.Add(bodies[i].Name);
         }
         private void ShowButton_Click(object sender, EventArgs e)
         {
@@ -41,7 +40,7 @@ namespace орбитальная_механика
             List<SpaceBody> list = new List<SpaceBody>();
             for (int i = 0; i < checkedListBox1.Items.Count; i++)
                 if (checkedListBox1.GetItemChecked(i))
-                    list.Add((SpaceBody)form.space.FindBody(checkedListBox1.Items[i].ToString()));
+                    list.Add(form.space.FindBody(checkedListBox1.Items[i].ToString()));
             var bodies = form.space.AllBodies();
             for (int i = list.Count - 1; i >= 0; i--)
             {
@@ -71,7 +70,7 @@ namespace орбитальная_механика
                 if (checkedListBox1.GetItemChecked(i))
                 {
                     k++;
-                    Body = (SpaceBody)form.space.FindBody(checkedListBox1.Items[i].ToString());
+                    Body = form.space.FindBody(checkedListBox1.Items[i].ToString());
                 }
             if (k == 1)
             {

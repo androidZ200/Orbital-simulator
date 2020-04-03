@@ -63,7 +63,7 @@ namespace орбитальная_механика
         }
         public void DrawFlyShop()
         {
-            lock(Lock)
+            lock (Lock)
             {
                 DrawShip();
                 Graphics g = Graphics.FromImage(shipImage);
@@ -71,43 +71,55 @@ namespace орбитальная_механика
                 g.FillPolygon(new SolidBrush(Color.Yellow), points);
             }
         }
-        public override Bitmap GetPicture()
+        public override void GetPicture(Graphics g, Point center)
         {
-            Bitmap result = new Bitmap(13, 13);
-            Graphics g = Graphics.FromImage(result);
-            g.TranslateTransform(6, 6);
-            g.RotateTransform((float)(Angle * 180 / Math.PI));
-            g.TranslateTransform(-6, -6);
-            lock (Lock)
-                g.DrawImage(shipImage, new Point(0, 0));
-            return result;
+            g.DrawImage(GetImg(), center.X - 6, center.Y - 6);
         }
         public override float SpeedCorrection(SpaceBody other, float slow)
         {
-            return base.SpeedCorrection(other, slow);
+            if (other == this) return 0;
+            int minFuture = Math.Min(FutureLength, other.FutureLength);
+            lock (lockTrail)
+                if (Distance2(other, minFuture) > 100)
+                    return SpeedCorrection(this, other, slow, minFuture);
+                else Collision(other, minFuture);
+            return 0;
         }
-        public override void Move(float slow)
+        public void MoveGas(float slow)
         {
-            if (Gas)
-            {
-                speed.Y += (float)Math.Sin(Angle) * MaxPower * slow;
-                speed.X += (float)Math.Cos(Angle) * MaxPower * slow;
-            }
             if (RotateRight) Angle += 0.05f * slow;
             if (RotateLeft) Angle -= 0.05f * slow;
-            base.Move(slow);
+            if (Gas)
+            {
+                sY += (float)Math.Sin(Angle) * MaxPower * slow;
+                sX += (float)Math.Cos(Angle) * MaxPower * slow;
+                Changet();
+            }
         }
         public void KeyDown(Keys key)
         {
             if (key == Keys.W) Gas = true;
-            if (key == Keys.A) RotateLeft = true;
-            if (key == Keys.D) RotateRight = true;
+            else if (key == Keys.A) RotateLeft = true;
+            else if (key == Keys.D) RotateRight = true;
         }
         public void KeyUp(Keys key)
         {
             if (key == Keys.W) Gas = false;
-            if (key == Keys.A) RotateLeft = false;
-            if (key == Keys.D) RotateRight = false;
+            else if (key == Keys.A) RotateLeft = false;
+            else if (key == Keys.D) RotateRight = false;
+        }
+
+        private Bitmap GetImg()
+        {
+            Bitmap result = new Bitmap(13, 13);
+            Graphics g = Graphics.FromImage(result);
+            float angle = (float)(Angle * 180 / Math.PI);
+            g.TranslateTransform(6, 6);
+            g.RotateTransform(angle);
+            g.TranslateTransform(-6, -6);
+            lock (Lock)
+                g.DrawImage(shipImage, new Point(0, 0));
+            return result;
         }
     }
 }

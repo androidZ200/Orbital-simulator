@@ -62,10 +62,10 @@ namespace орбитальная_механика
                 {
                     body.color = colorBody;
 
-                    body.point.X = (float)Convert.ToDouble(textBox1.Text);
-                    body.point.Y = (float)Convert.ToDouble(textBox2.Text);
-                    body.speed.X = (float)Convert.ToDouble(textBox4.Text);
-                    body.speed.Y = (float)Convert.ToDouble(textBox3.Text);
+                    if(body.X != (float)Convert.ToDouble(textBox1.Text)) body.X = (float)Convert.ToDouble(textBox1.Text);
+                    if (body.Y != (float)Convert.ToDouble(textBox2.Text)) body.Y = (float)Convert.ToDouble(textBox2.Text);
+                    if (body.sX != (float)Convert.ToDouble(textBox4.Text)) body.sX = (float)Convert.ToDouble(textBox4.Text);
+                    if (body.sY != (float)Convert.ToDouble(textBox3.Text)) body.sY = (float)Convert.ToDouble(textBox3.Text);
                     body.Weight  = (float)Convert.ToDouble(textBox5.Text);
                     body.Name = textBox6.Text;
                     if (body is SpaceShip)
@@ -89,7 +89,11 @@ namespace орбитальная_механика
                         form.space.GetSpace().follow = body;
 
                     if (IntoOrbitOfThisBody != null)
-                        form.space.Orbit(IntoOrbitOfThisBody, body, clockwise);
+                        try
+                        {
+                            form.space.Orbit(IntoOrbitOfThisBody, body, clockwise);
+                        }
+                        catch { MessageBox.Show("R == 0"); }
                     Close();
                 }
                 catch
@@ -111,7 +115,7 @@ namespace орбитальная_механика
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
             DialogResult D = colorDialog1.ShowDialog();
-            if (D == System.Windows.Forms.DialogResult.OK) colorBody = colorDialog1.Color;
+            if (D == DialogResult.OK) colorBody = colorDialog1.Color;
             Bitmap bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             Graphics g = Graphics.FromImage(bmp);
             g.Clear(colorBody);

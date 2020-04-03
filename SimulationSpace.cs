@@ -15,7 +15,7 @@ namespace орбитальная_механика
         private Thread threadGraphics;
         public double SpeedTime { get; private set; } = 10;
         private double SpeedTimeCheck = 0;
-        private Action<Bitmap> graphics;
+        private FormMain form;
         private Func<Size> getSize;
         private object Lock = new object();
         private bool speedVector = true;
@@ -31,9 +31,9 @@ namespace орбитальная_механика
             set { lock (Lock) radar = value; }
         }
 
-        public SimulationSpace(Action<Bitmap> graphics, Func<Size> getSize)
+        public SimulationSpace(FormMain form, Func<Size> getSize)
         {
-            this.graphics = graphics;
+            this.form = form;
             this.getSize = getSize;
             threadGraphics = new Thread(FPS);
             threadGraphics.Start();
@@ -58,32 +58,33 @@ namespace орбитальная_механика
             if (Play)
             {
                 Play = false;
+                threadSpace.Join();
             }
         }
         public void MoveSpace(Point p)
         {
             space.MoveSpace(p);
         }
-        public void MoveBody(SpaceObject b, Point p)
+        public void MoveBody(SpaceBody b, Point p)
         {
             if (b != null && !Play)
                 lock (Lock)
                 {
-                    b.point.X += p.X;
-                    b.point.Y += p.Y;
+                    b.X += p.X;
+                    b.Y += p.Y;
                 }
         }
-        public SpaceObject FindBody(Point coordinate)
+        public SpaceBody FindBody(Point coordinate)
         {
             if (!Play)
                 return space.Find(coordinate);
             else return null;
         }
-        public SpaceObject FindBody(string Name)
+        public SpaceBody FindBody(string Name)
         {
             return space.Find(Name);
         }
-        public SpaceObject[] AllBodies()
+        public SpaceBody[] AllBodies()
         {
             return space.bodies.ToArray();
         }
@@ -91,13 +92,13 @@ namespace орбитальная_механика
         {
             return space;
         }
-        public void ChangeSpeedVector(SpaceObject b, Point p)
+        public void ChangeSpeedVector(SpaceBody b, Point p)
         {
             if (!Play)
                 lock (Lock)
                 {
-                    b.speed.X = (p.X + space.Beginning.X - b.point.X) / (float)16.0;
-                    b.speed.Y = (p.Y + space.Beginning.Y - b.point.Y) / (float)16.0;
+                    b.sX = (p.X + space.Beginning.X - b.X) / (float)16.0;
+                    b.sY = (p.Y + space.Beginning.Y - b.Y) / (float)16.0;
                 }
         }
         public void AddBody(PointF point, float Weight, string Name)
@@ -135,11 +136,11 @@ namespace орбитальная_механика
                 space.AddBody(body);
             }
         }
-        public void DeleteBody(SpaceObject b)
+        public void DeleteBody(SpaceBody b)
         {
             space.RemoveBody(b);
         }
-        public void Orbit(SpaceBody Main, SpaceObject Satellite, bool clockwise)
+        public void Orbit(SpaceBody Main, SpaceBody Satellite, bool clockwise)
         {
             space.Orbit(Main, Satellite, clockwise);
         }
@@ -180,9 +181,6 @@ namespace орбитальная_механика
                 }
                 else Thread.Sleep((int)timeSpeedTime);
             }
-            Thread t = threadSpace;
-            threadSpace = null;
-            t.Abort();
         }
         private void FPS()
         {
@@ -192,8 +190,7 @@ namespace орбитальная_механика
                 Size t = getSize();
                 lock (Lock)
                     bmp = space.GetPicture(t.Width, t.Height, SpeedVector, Radar);
-                graphics(bmp);
-                Thread.Sleep(10);
+                form.Invoke((Action)(() => form.pictureBox1.Image = bmp));
                 GC.Collect();
             }
         }

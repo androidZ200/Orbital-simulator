@@ -74,7 +74,7 @@ namespace орбитальная_механика
                             k--;
                         }
                     k++;
-                    Body = (SpaceBody)form.space.FindBody(checkedListBox1.Items[i].ToString());
+                    Body = form.space.FindBody(checkedListBox1.Items[i].ToString());
                 }
             if (k == 1)
                 AddButton.Enabled = true;

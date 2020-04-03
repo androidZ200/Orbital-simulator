@@ -31,14 +31,17 @@ namespace орбитальная_механика
                     TheOnlyName = false;
             if (TheOnlyName)
             {
+                double mass = 0;
+                try { mass = Convert.ToDouble(TextBoxWeight.Text); }
+                catch { MessageBox.Show("The mass is not correctly specified"); return; }
                 if (!ShipCheckBox.Checked)
                 {
                     if (StaticCheckBox.Checked)
                         form.space.AddStaticBody(new Point((trackBar1.Value + 10) * form.pictureBox1.Width / 20,
-                            (trackBar2.Value + 10) * form.pictureBox1.Height / 20), trackBar5.Value, textBox1.Text);
+                            (trackBar2.Value + 10) * form.pictureBox1.Height / 20), (float)mass, textBox1.Text);
                     else
                         form.space.AddBody(new Point((trackBar1.Value + 10) * form.pictureBox1.Width / 20,
-                            (trackBar2.Value + 10) * form.pictureBox1.Height / 20), trackBar5.Value, textBox1.Text);
+                            (trackBar2.Value + 10) * form.pictureBox1.Height / 20), (float)mass, textBox1.Text);
                 }
                 else
                 {
@@ -48,7 +51,10 @@ namespace орбитальная_механика
                 }
                 bodies = form.space.AllBodies();
                 if (IntoOrbitOfThisBody != null)
-                    form.space.Orbit(IntoOrbitOfThisBody, bodies[bodies.Length - 1], clockwise);
+                    try
+                    {
+                        form.space.Orbit(IntoOrbitOfThisBody, bodies[bodies.Length - 1], clockwise);
+                    } catch { MessageBox.Show("R == 0"); }
                 Close();
             }
             else
@@ -61,10 +67,6 @@ namespace орбитальная_механика
         private void trackBar2_Scroll(object sender, EventArgs e)
         {
             label2.Text = "pY: " + Convert.ToString(trackBar2.Value);
-        }
-        private void trackBar5_Scroll(object sender, EventArgs e)
-        {
-            label5.Text = "Weight: " + Convert.ToString(trackBar5.Value);
         }
         private void OrbitButton_Click(object sender, EventArgs e)
         {
