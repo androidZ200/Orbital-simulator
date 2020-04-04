@@ -106,7 +106,7 @@ namespace орбитальная_механика
             Bitmap bmp = new Bitmap(Width, Height);
             Graphics g = Graphics.FromImage(bmp);
 
-            DrawGrill(g, Color.FromArgb(0, 50, 0), Width, Height, Point.Empty, 100, 1);
+            DrawGrill(g, Color.FromArgb(0, 50, 0), Width, Height, offset, 100, 1);
 
             return bmp;
         }

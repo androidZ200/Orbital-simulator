@@ -101,37 +101,37 @@ namespace орбитальная_механика
                 bmp = background.GetBackground(new Point(-(int)beginning.X, -(int)beginning.Y), width, height);
                 Graphics g = Graphics.FromImage(bmp);
 
-
-                for (int i = 0; i < bodies.Count; i++)
-                {
-                    Pen p = new Pen(bodies[i].color, 1);
-                    lock (bodies[i])
+                lock (bodies)
+                    for (int i = 0; i < bodies.Count; i++)
                     {
-                        var s = bodies[i].Trail.GetEnumerator();
-                        s.MoveNext();
-                        var prev = s;
-                        while (s.MoveNext())
+                        Pen p = new Pen(bodies[i].color, 1);
+                        lock (bodies[i])
                         {
-                            if (prev.Current != null)
-                                g.DrawLine(p, prev.Current.X - beginning.X,
-                                    prev.Current.Y - beginning.Y, s.Current.X - beginning.X, s.Current.Y - beginning.Y);
-                            prev = s;
+                            var s = bodies[i].Trail.GetEnumerator();
+                            s.MoveNext();
+                            var prev = s;
+                            while (s.MoveNext())
+                            {
+                                if (prev.Current != null)
+                                    g.DrawLine(p, prev.Current.X - beginning.X,
+                                        prev.Current.Y - beginning.Y, s.Current.X - beginning.X, s.Current.Y - beginning.Y);
+                                prev = s;
+                            }
+                        }
+                        lock (bodies[i])
+                        {
+                            var s = bodies[i].Future.GetEnumerator();
+                            s.MoveNext();
+                            var prev = s;
+                            while (s.MoveNext())
+                            {
+                                if (prev.Current != null)
+                                    g.DrawLine(p, prev.Current.point.X - beginning.X,
+                                        prev.Current.point.Y - beginning.Y, s.Current.point.X - beginning.X, s.Current.point.Y - beginning.Y);
+                                prev = s;
+                            }
                         }
                     }
-                    lock (bodies[i])
-                    {
-                        var s = bodies[i].Future.GetEnumerator();
-                        s.MoveNext();
-                        var prev = s;
-                        while (s.MoveNext())
-                        {
-                            if (prev.Current != null)
-                                g.DrawLine(p, prev.Current.point.X - beginning.X,
-                                    prev.Current.point.Y - beginning.Y, s.Current.point.X - beginning.X, s.Current.point.Y - beginning.Y);
-                            prev = s;
-                        }
-                    }
-                }
                 for (int i = 0; i < bodies.Count; i++)
                     lock (bodies[i])
                         if (bodies[i].X >= beginning.X - 6 && bodies[i].X <= beginning.X + width + 6 &&
@@ -176,9 +176,13 @@ namespace орбитальная_механика
         }
         public void Orbit(SpaceBody SunBody, SpaceBody PlanetBody, bool clockwise)
         {
+            PointF ImpulseSystem = PointF.Empty;
+            ImpulseSystem.X += SunBody.Weight * SunBody.sX + PlanetBody.Weight * PlanetBody.sX;
+            ImpulseSystem.Y += SunBody.Weight * SunBody.sY + PlanetBody.Weight * PlanetBody.sY;
+
             double R = Math.Sqrt((PlanetBody.X - SunBody.X) * (PlanetBody.X - SunBody.X) +
                 (PlanetBody.Y - SunBody.Y) * (PlanetBody.Y - SunBody.Y));
-            if (R <= 1d) throw new Exception();
+            if (R <= 4d) throw new Exception();
             PlanetBody.sX = SunBody.sX;
             PlanetBody.sY = SunBody.sY;
             double AngleA = Math.Atan2(PlanetBody.Y - SunBody.Y, PlanetBody.X - SunBody.X);
@@ -186,6 +190,13 @@ namespace орбитальная_механика
             else AngleA -= Math.PI / 2;
             PlanetBody.sX += (float)(Math.Sqrt(SunBody.Weight / R) * Math.Cos(AngleA));
             PlanetBody.sY += (float)(Math.Sqrt(SunBody.Weight / R) * Math.Sin(AngleA));
+
+            ImpulseSystem.X -= SunBody.Weight * SunBody.sX + PlanetBody.Weight * PlanetBody.sX;
+            ImpulseSystem.Y -= SunBody.Weight * SunBody.sY + PlanetBody.Weight * PlanetBody.sY;
+            SunBody.sX += ImpulseSystem.X / (PlanetBody.Weight + SunBody.Weight);
+            SunBody.sY += ImpulseSystem.Y / (PlanetBody.Weight + SunBody.Weight);
+            PlanetBody.sX += ImpulseSystem.X / (PlanetBody.Weight + SunBody.Weight);
+            PlanetBody.sY += ImpulseSystem.Y / (PlanetBody.Weight + SunBody.Weight);
         }
         public SpaceBody Find(PointF coordinate)
         {

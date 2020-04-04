@@ -143,6 +143,9 @@ namespace орбитальная_механика
                 case 6:
                     space.NewBackground(new SpaceBackgroundRadial(space.GetSpace().bodies));
                     break;
+                case 7:
+                    space.NewBackground(new SpaceBackgroundColor(space.GetSpace().bodies));
+                    break;
             }
         }
         private void RadarCheckBox_CheckedChanged(object sender, EventArgs e)
